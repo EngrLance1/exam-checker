@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Printable answer sheets · SagotScan</title>
+<meta name="description" content="Print-ready 30, 50 and 60-item answer sheets for SagotScan. Free to print, same sheet for every test.">
+<link rel="stylesheet" href="../app/css/fonts.css">
+<link rel="stylesheet" href="../app/css/tokens.css">
+<link rel="stylesheet" href="sheets.css">
+</head>
+<body>
+<div class="bg" aria-hidden="true"><i class="blob b1"></i><i class="blob b2"></i></div>
+
+<main class="page">
+  <header class="head">
+    <a class="back" href="../app/index.html">&larr; Open SagotScan</a>
+    <h1>Printable answer sheets</h1>
+    <p class="lede">The same blank sheet works for every test. Students shade their answers; you type the answer key into the app. Choose the number of items, then print.</p>
+  </header>
+
+  <section class="controls glass" aria-label="Choose a sheet">
+    <div class="field">
+      <span class="lbl" id="sizeLbl">Number of items</span>
+      <div class="seg" role="group" aria-labelledby="sizeLbl" id="sizeSeg">
+        <button type="button" data-size="30" aria-pressed="false">30 items</button>
+        <button type="button" data-size="50" aria-pressed="true">50 items</button>
+        <button type="button" data-size="60" aria-pressed="false">60 items</button>
+      </div>
+      <p class="hint" id="sizeHelp">Giving a test with fewer items, say 40? Use the 50-item sheet and set the test to 40 items in SagotScan. Items after 40 are ignored.</p>
+    </div>
+    <button type="button" class="btn primary pill" id="printBtn">Print this sheet</button>
+  </section>
+
+  <section class="tips glass" aria-label="How to print">
+    <h2>Before you print</h2>
+    <ol>
+      <li><b>Print at 100% (actual size)</b> on plain white paper, in black. Turn off "fit to page" if your printer offers it. Any scale still scans, but standard size gives the best marks.</li>
+      <li>All four <b>black corner squares</b> must print fully. Do not trim the page edges.</li>
+      <li>To make a PDF, choose <b>Save as PDF</b> as the printer.</li>
+      <li>Students use a <b>No. 2 pencil or a dark ballpoint pen</b> and fill each circle completely.</li>
+    </ol>
+  </section>
+
+  <section class="preview-wrap" aria-label="Sheet preview">
+    <div class="preview glass" id="sheetBox" role="img" aria-label="Preview of the answer sheet"></div>
+    <p class="hint center">Preview. The printed sheet is the same drawing at full size.</p>
+  </section>
+</main>
+
+<!-- Printed output: only this is visible when printing -->
+<div class="print-area" id="printArea" aria-hidden="true"></div>
+
+<script src="../app/js/data/layouts.js"></script>
+<script src="sheet-svg.js"></script>
+<script src="sheets.js"></script>
+</body>
+</html>

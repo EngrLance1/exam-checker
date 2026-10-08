@@ -1,3 +1,3 @@
 * text=auto
-js/vendor/*.js -text
-js/data/*.js -text
+app/js/vendor/*.js -text
+app/js/data/*.js -text

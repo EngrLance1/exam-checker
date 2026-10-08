@@ -17,7 +17,7 @@ if (!chrome) { console.error("No Chrome or Edge found."); process.exit(2); }
 
 const PORT = 9333 + Math.floor(Math.random() * 300);
 const profile = fs.mkdtempSync(path.join(os.tmpdir(), "sagot-"));
-const url = pathToFileURL(path.join(__dirname, "..", "index.html")).href;
+const url = pathToFileURL(path.join(__dirname, "..", "app", "index.html")).href;
 const proc = spawn(chrome, ["--headless=new", "--disable-gpu", `--remote-debugging-port=${PORT}`, `--user-data-dir=${profile}`, "--window-size=1300,2200", "about:blank"], { stdio: "ignore" });
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));

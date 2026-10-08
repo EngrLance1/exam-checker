@@ -1,10 +1,11 @@
-// Checks the glass colour tokens in css/styles.css against WCAG AA (4.5:1 for normal text), computed from the real values.
+// Checks the glass colour tokens in app/css/styles.css against WCAG AA (4.5:1 for normal text), computed from the real values.
 const test = require("node:test");
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
 
-const css = fs.readFileSync(path.join(__dirname, "..", "css", "styles.css"), "utf8");
+// tokens.css holds the :root variables; styles.css holds the components. They are read together, tokens first.
+const css = ["tokens.css", "styles.css"].map((f) => fs.readFileSync(path.join(__dirname, "..", "app", "css", f), "utf8")).join("\n");
 const root = css.slice(css.indexOf(":root {"), css.indexOf("}", css.indexOf(":root {")));
 const tok = (name) => { const m = root.match(new RegExp(`--${name}:\\s*([^;]+);`)); assert.ok(m, `token --${name} missing`); return m[1].trim(); };
 

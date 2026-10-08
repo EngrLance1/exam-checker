@@ -1,0 +1,71 @@
+/* app/css/tokens.css — the design tokens: every colour, radius, blur, shadow and spacing value for the whole site.
+   Shared by the app (app/index.html), the landing page and the printable sheets page, so they always look like one product.
+   Soft glassmorphism, light only. Change the look here. (The glass look was requested explicitly and overrides the older
+   "no glass / no gradients" rules for this UI.) */
+
+:root {
+  color-scheme: light;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+
+  /* sky */
+  --sky-a: #e6e9fb; --sky-b: #d9ddf8; --sky-c: #eef0fd;
+  --blob-blue: rgba(76, 110, 245, 0.30); --blob-violet: rgba(124, 92, 250, 0.30);
+
+  /* brand */
+  --primary: #4c6ef5;          /* charts, highlights */
+  --primary-strong: #3b58d6;   /* text and icons on glass (meets AA) */
+  --violet: #7c5cfa;
+  --orange: #f59f5b;           /* the third colour in the progress ring */
+  --btn-a: #4a66e8; --btn-b: #6a4de6;   /* button gradient (white text meets AA) */
+
+  /* text */
+  --navy: #1e2340;             /* headings, big numbers */
+  --muted: #5f6589;            /* labels, dates (darkened from #6B7194 so small text meets AA on glass) */
+
+  /* glass */
+  --glass: rgba(255, 255, 255, 0.68);
+  --glass-solid: rgba(255, 255, 255, 0.94);   /* used where backdrop-filter is unsupported */
+  --glass-border: rgba(255, 255, 255, 0.6);
+  --glass-soft: rgba(255, 255, 255, 0.5);
+  --window-glass: rgba(255, 255, 255, 0.32);
+  --blur: 18px; --blur-window: 10px;
+
+  /* shape and depth */
+  --radius-window: 28px; --radius-card: 18px; --radius-field: 12px; --radius-pill: 999px;
+  --shadow-card: 0 8px 32px rgba(80, 90, 180, 0.12);
+  --shadow-hover: 0 14px 40px rgba(80, 90, 180, 0.2);
+  --shadow-window: 0 24px 80px rgba(76, 90, 200, 0.18);
+  --shadow-btn: 0 6px 16px rgba(76, 110, 245, 0.28);
+  --lift: -2px; --ease: 200ms ease;
+
+  /* spacing */
+  --gap: 18px; --pad: 20px; --window-pad: 22px; --window-margin: 24px; --side-w: 212px;
+
+  /* lines and fills */
+  --line: rgba(30, 35, 64, 0.09);
+  --line-strong: rgba(30, 35, 64, 0.16);
+  --track: rgba(30, 35, 64, 0.08);
+  --select: rgba(76, 110, 245, 0.13);   /* selected table row */
+
+  /* status: used only for small tinted pills and dots */
+  --ok: #1d7a4a;   --ok-soft: #dff5e8;   --ok-dot: #2fbf71;
+  --warn: #8a5300; --warn-soft: #fdf0d5; --warn-dot: #f5a524;
+  --bad: #b42318;  --bad-soft: #fde4e1;  --bad-dot: #e5484d;
+  --info: #3b58d6; --info-soft: #e4eafe;
+
+  /* tinted avatar / icon circles: soft fill, darker ink */
+  --tint-blue: rgba(76, 110, 245, 0.14);   --tint-blue-ink: #2b429f;
+  --tint-violet: rgba(124, 92, 250, 0.14); --tint-violet-ink: #4e34a8;
+  --tint-orange: rgba(245, 159, 91, 0.2);  --tint-orange-ink: #7a4200;
+
+  /* type */
+  --font: "Plus Jakarta Sans", "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+
+  /* names the older component rules use */
+  --ink: var(--navy); --surface: var(--glass); --sunk: var(--glass-soft); --accent: var(--primary-strong);
+  --accent-ink: #ffffff; --accent-soft: var(--info-soft); --mark: var(--navy); --hl: var(--select);
+  --radius: var(--radius-field);
+}

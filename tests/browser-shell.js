@@ -4,7 +4,7 @@ const { launch } = require("./helpers/browser");
 
 (async () => {
   const b = await launch({ width: 1440, height: 900 });
-  const { ev, send, check, errors, sleep } = b;
+  const { ev, send, check, errors, requests, sleep } = b;
   const text = (sel) => ev(`document.querySelector(${JSON.stringify(sel)}).textContent.replace(/\\s+/g, " ").trim()`);
   const visible = (sel) => ev(`(() => { const e = document.querySelector(${JSON.stringify(sel)}); return !!e && !e.hidden && e.getClientRects().length > 0; })()`);
   const css = (sel, prop) => ev(`getComputedStyle(document.querySelector(${JSON.stringify(sel)})).getPropertyValue(${JSON.stringify(prop)})`);
@@ -36,6 +36,11 @@ const { launch } = require("./helpers/browser");
     check("fonts: Plus Jakarta Sans first, headings navy", (await css("body", "font-family")).startsWith('"Plus Jakarta Sans"') && (await css(".card-title", "color")) === "rgb(30, 35, 64)");
     check("no emoji and no ⋯ text glyph anywhere", await ev(`!/[\\u{1F300}-\\u{1FAFF}\\u2600-\\u27BF\\u22EF\\u2026]/u.test(document.body.innerText.replace(/…/g, ""))`));
     check("icons are inline Lucide-style SVG (no icon font, no emoji)", (await ev(`document.querySelectorAll("svg.ic use").length`)) > 15);
+
+    /* ---- privacy: nothing is fetched from anywhere but this site ---- */
+    const foreign = requests.filter((u) => !u.startsWith("file:") && !u.startsWith("data:") && !u.startsWith("about:"));
+    check("the app loads nothing from other sites (no CDN, no Google Fonts)", requests.length > 20 && foreign.length === 0, JSON.stringify(foreign));
+    check("the fonts are served from the app's own folder", requests.some((u) => /fonts\/PlusJakartaSans.*\.woff2$/.test(u)), JSON.stringify(requests.filter((u) => /font/i.test(u))));
 
     /* ---- dashboard with real data ---- */
     await ev(`document.querySelector("#clearSample").click()`);

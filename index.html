@@ -3,333 +3,228 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>SagotScan</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap">
-<link rel="stylesheet" href="css/styles.css">
-<link rel="stylesheet" href="css/print.css">
+<title>SagotScan: check answer sheets from your phone</title>
+<meta name="description" content="Free answer sheet checker for teachers. Photograph filled sheets, get scores, class MPS and item analysis, and export to Excel. No account; photos stay on your device.">
+<meta name="theme-color" content="#e6e9fb">
+<meta property="og:type" content="website">
+<meta property="og:title" content="SagotScan: check answer sheets from your phone">
+<meta property="og:description" content="Photograph filled answer sheets. Get scores, class MPS and item analysis in minutes. Free, no account, nothing leaves your device.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="app/css/fonts.css">
+<link rel="stylesheet" href="app/css/tokens.css">
+<link rel="stylesheet" href="landing.css">
 </head>
 <body>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-  <defs>
-    <!-- Lucide line icons (lucide.dev, ISC licence), inlined so the app needs no icon library -->
-    <symbol id="i-dashboard" viewBox="0 0 24 24"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></symbol>
-    <symbol id="i-setup" viewBox="0 0 24 24"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/></symbol>
-    <symbol id="i-camera" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></symbol>
-    <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
-    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></symbol>
-    <symbol id="i-report" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></symbol>
-    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
-    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol>
-    <symbol id="i-printer" viewBox="0 0 24 24"><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6"/><rect x="6" y="14" width="12" height="8" rx="1"/></symbol>
-    <symbol id="i-more" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></symbol>
-    <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></symbol>
-    <symbol id="i-save" viewBox="0 0 24 24"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"/><path d="M7 3v4a1 1 0 0 0 1 1h7"/></symbol>
-    <symbol id="i-open" viewBox="0 0 24 24"><path d="m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2"/></symbol>
-    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></symbol>
-    <symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></symbol>
-    <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
-    <symbol id="i-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></symbol>
-  </defs>
-</svg>
-<div class="bg" aria-hidden="true"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i></div>
+<a class="skip" href="#main">Skip to content</a>
+<div class="bg" aria-hidden="true"><i class="blob b1"></i><i class="blob b2"></i></div>
 
-<div class="window">
-  <aside class="side">
-    <div class="brand">
-      <svg class="logo" viewBox="0 0 40 40" aria-hidden="true">
-        <defs><linearGradient id="logoGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--primary)"/><stop offset="1" stop-color="var(--violet)"/></linearGradient></defs>
-        <rect width="40" height="40" rx="12" fill="url(#logoGrad)"/>
-        <circle cx="14" cy="15" r="4" fill="none" stroke="#fff" stroke-width="2"/><circle cx="26" cy="15" r="4" fill="#fff"/>
-        <circle cx="14" cy="27" r="4" fill="#fff"/><circle cx="26" cy="27" r="4" fill="none" stroke="#fff" stroke-width="2"/>
-      </svg>
-      <div class="brand-text"><strong class="brand-name">SagotScan</strong><span class="brand-sub">Answer sheet checker</span></div>
-    </div>
-    <nav class="nav" aria-label="Main">
-        <button type="button" class="nav-item" data-view="dashboard" aria-current="page">
-          <svg class="ic" aria-hidden="true"><use href="#i-dashboard"/></svg><span class="nav-label">Dashboard</span>
-        </button>
-        <button type="button" class="nav-item" data-view="setup">
-          <svg class="ic" aria-hidden="true"><use href="#i-setup"/></svg><span class="nav-label">Test setup</span>
-        </button>
-        <button type="button" class="nav-item" data-view="scan">
-          <svg class="ic" aria-hidden="true"><use href="#i-camera"/></svg><span class="nav-label">Scan sheets</span>
-        </button>
-        <button type="button" class="nav-item" data-view="scores">
-          <svg class="ic" aria-hidden="true"><use href="#i-users"/></svg><span class="nav-label">Scores</span><span class="nav-badge" id="navBadge" hidden></span>
-        </button>
-        <button type="button" class="nav-item" data-view="analysis">
-          <svg class="ic" aria-hidden="true"><use href="#i-chart"/></svg><span class="nav-label">Item analysis</span>
-        </button>
-        <button type="button" class="nav-item" data-view="reports">
-          <svg class="ic" aria-hidden="true"><use href="#i-report"/></svg><span class="nav-label">Reports</span>
-        </button>
+<header class="site-head">
+  <div class="wrap bar">
+    <a class="brand" href="./" aria-label="SagotScan home">
+      <svg class="logo" viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="lg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4c6ef5"/><stop offset="1" stop-color="#7c5cfa"/></linearGradient></defs><rect width="40" height="40" rx="12" fill="url(#lg)"/><circle cx="14" cy="15" r="4" fill="none" stroke="#fff" stroke-width="2"/><circle cx="26" cy="15" r="4" fill="#fff"/><circle cx="14" cy="27" r="4" fill="#fff"/><circle cx="26" cy="27" r="4" fill="none" stroke="#fff" stroke-width="2"/></svg>
+      <span>SagotScan</span>
+    </a>
+    <nav class="nav" aria-label="Page sections">
+      <a href="#how">How it works</a>
+      <a href="#sheet">Answer sheets</a>
+      <a href="#faq">FAQ</a>
+      <a href="https://github.com/EngrLance1/exam-checker">GitHub</a>
     </nav>
-    <div class="side-foot">
-      <label class="nav-item" for="openInput"><svg class="ic" aria-hidden="true"><use href="#i-open"/></svg><span class="nav-label">Open test file</span></label>
-      <button type="button" class="nav-item" data-proxy="#saveFileBtn"><svg class="ic" aria-hidden="true"><use href="#i-save"/></svg><span class="nav-label">Save test file</span></button>
-    </div>
-  </aside>
-
-  <div class="content">
-    <header class="topbar">
-      <div class="welcome">
-        <span class="avatar" id="topAvatar" aria-hidden="true"><svg class="ic" aria-hidden="true"><use href="#i-setup"/></svg></span>
-        <div class="welcome-text"><span class="muted-sm">Test</span><h1 id="topTitle">Untitled test</h1></div>
-      </div>
-      <div class="top-actions">
-        <form class="search" role="search" onsubmit="return false">
-          <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
-          <input type="search" id="searchInput" placeholder="Search" aria-label="Search students by name or class number" autocomplete="off">
-        </form>
-        <button class="btn primary pill desktop-only" id="exportBtn" type="button"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg><span>Download Excel</span></button>
-        <label class="btn primary pill phone-only" for="camInput"><svg class="ic" aria-hidden="true"><use href="#i-camera"/></svg><span>Take photo</span></label>
-        <button class="icon-btn" id="printBtn" type="button" aria-label="Print report" title="Print report"><svg class="ic" aria-hidden="true"><use href="#i-printer"/></svg></button>
-        <button class="icon-btn" id="attnBtn" type="button" aria-label="Sheets and items to check" title="Needs attention"><svg class="ic" aria-hidden="true"><use href="#i-bell"/></svg><i class="dot-red" id="attnDot" hidden></i></button>
-      </div>
-    </header>
-
-    <div id="storageWarn" class="banner warn" role="alert" hidden>
-      <span><b>This browser isn't saving your work.</b> Storage is full or blocked. Use Save test file so you don't lose it.</span>
-    </div>
-    <div id="printBar" class="confirm neutral" hidden>
-      <span class="row"><b>Print report</b><label class="check"><input type="checkbox" id="printNames" checked> Include student names</label></span>
-      <span class="row"><button type="button" class="btn small primary" id="printGo">Print</button><button type="button" class="btn small" id="printCancel">Cancel</button></span>
-    </div>
-    <div id="confirmBar" class="confirm" hidden>
-      <span id="confirmMsg"></span>
-      <span class="row"><button type="button" class="btn small danger" id="confirmYes">Clear</button><button type="button" class="btn small" id="confirmNo">Cancel</button></span>
-    </div>
-
-    <main id="main" tabindex="-1">
-      <section class="view" id="view-dashboard" aria-label="Dashboard">
-        <div class="cards3">
-          <article class="glass stat-card" id="cardSheets" aria-label="Sheets scanned"></article>
-          <article class="glass stat-card" id="cardMps" aria-label="Class MPS"></article>
-          <article class="glass stat-card" id="cardTarget" aria-label="Students at target"></article>
-        </div>
-        <div class="row-mid">
-          <article class="glass chart-card" id="cardChart" aria-label="Item analysis overview"></article>
-          <article class="glass list-card" id="cardAttn" aria-label="Needs attention"></article>
-        </div>
-        <div class="row-bottom">
-          <article class="glass list-card" id="cardRecent" aria-label="Recent activity"></article>
-          <article class="glass list-card" id="cardTop" aria-label="Top scores"></article>
-        </div>
-      </section>
-
-      <section class="view" id="view-setup" aria-label="Test setup" hidden>
-        <div class="narrow">
-      <section class="glass panel" aria-labelledby="h-setup">
-        <div class="panel-head"><h2 id="h-setup">Test details</h2></div>
-        <div class="field">
-          <label class="lbl" for="testName">Test name</label>
-          <input type="text" id="testName" placeholder="e.g. Empowerment Technologies – Q1 Summative">
-        </div>
-        <div class="field">
-          <span class="lbl">Number of items</span>
-          <div class="seg" id="sizeSeg" role="group" aria-label="Number of items">
-            <button type="button" data-size="30">30</button><button type="button" data-size="50">50</button><button type="button" data-size="60">60</button><button type="button" data-size="other">Other</button>
-          </div>
-          <div class="row size-other" id="sizeOther" hidden>
-            <label class="lbl" for="sizeCustom" style="margin:0">Items</label>
-            <input type="number" id="sizeCustom" min="1" max="60" step="1" inputmode="numeric" autocomplete="off" aria-describedby="sizeHint">
-          </div>
-          <p class="hint" id="sizeHint" hidden></p>
-        </div>
-        <div class="field">
-          <label class="lbl" for="targetInput">Target MPS (%)</label>
-          <input type="number" id="targetInput" min="1" max="100" step="1" inputmode="numeric" autocomplete="off" aria-describedby="targetHint" style="width:90px">
-          <p class="hint" id="targetHint">Class MPS and item MPS are compared to this. DepEd's usual target is 75.</p>
-        </div>
-        <div class="field">
-          <div class="row between">
-            <span class="lbl" style="margin:0">Answer key</span>
-            <div class="seg" id="setSeg" role="group" aria-label="Test set">
-              <button type="button" data-set="A">Set A</button><button type="button" data-set="B">B</button><button type="button" data-set="C">C</button><button type="button" data-set="D">D</button>
-            </div>
-          </div>
-          <textarea id="keyInput" spellcheck="false" autocomplete="off" aria-describedby="keyHint" style="margin-top:8px"></textarea>
-          <div class="row between" style="margin-top:6px">
-            <span class="keycount" id="keyCount"></span>
-            <span class="row" style="gap:8px"><button type="button" class="btn small danger" id="clearKeyBtn">Clear key</button><button type="button" class="btn small" id="keyScanBtn">Scan a key sheet</button></span>
-          </div>
-          <p class="hint" id="keyHint">Type the letters in order, like <span class="mono">ABDCA BBCDA</span>. Spaces and numbers are ignored. Use a dash for an item that isn't scored. Only fill the sets you used.</p>
-        </div>
-        <details class="field roster">
-          <summary>Class list (fills in names)</summary>
-          <p class="hint">One student per line: class number, then name, like <span class="mono">12 Dela Cruz, Juan</span>. Names go to sheets in the section chosen on the Scan sheets page, now and for sheets you scan later.</p>
-          <textarea id="rosterInput" spellcheck="false" autocomplete="off" aria-label="Class list" style="margin-top:8px"></textarea>
-          <div class="row between" style="margin-top:6px">
-            <span class="hint" id="rosterNote" role="status"></span>
-            <span class="row" style="gap:8px"><button type="button" class="btn small danger" id="rosterClear">Clear list</button><button type="button" class="btn small" id="rosterApply">Add names</button></span>
-          </div>
-        </details>
-      </section>
-        </div>
-      </section>
-
-      <section class="view" id="view-scan" aria-label="Scan sheets" hidden>
-        <div class="narrow">
-      <section class="glass panel" aria-labelledby="h-scan">
-        <div class="panel-head"><h2 id="h-scan">Scan answer sheets</h2></div>
-        <div class="field">
-          <label class="lbl" for="sectionInput">Section <span class="hint">(optional)</span></label>
-          <input type="text" id="sectionInput" list="sectionList" maxlength="40" placeholder="e.g. 10-Newton" autocomplete="off" aria-describedby="sectionHint">
-          <datalist id="sectionList"></datalist>
-          <p class="hint" id="sectionHint">Sheets you scan next are filed under this section. Leave it empty if you only have one section.</p>
-        </div>
-        <div id="captureNote" class="capture-note" hidden></div>
-        <div class="drop" id="drop">
-          <div class="row">
-            <label class="btn primary" for="camInput">
-              <svg width="17" height="17" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 6h3l1.5-2h5L13 6h3v9H2z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="9" cy="10.3" r="2.8" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
-              Take photo
-            </label>
-            <label class="btn" for="fileInput">Upload photos</label>
-          </div>
-          <input class="sr" type="file" id="camInput" accept="image/*" capture="environment">
-          <input class="sr" type="file" id="fileInput" accept="image/*" multiple>
-          <p>You can also drop photos here. It works out on its own whether the sheet has 30, 50 or 60 items.</p>
-        </div>
-        <ul class="queue" id="queue" aria-live="polite"></ul>
-        <ul class="tips">
-          <li>Lay the sheet flat in good light, with no shadow across it.</li>
-          <li>Keep all four black corner squares inside the photo.</li>
-          <li>Any angle works, even sideways or upside down.</li>
-        </ul>
-      </section>
-        </div>
-      </section>
-
-      <section class="view" id="view-scores" aria-label="Scores" hidden>
-      <section class="glass panel" aria-labelledby="h-res">
-        <div class="panel-head"><h2 id="h-res">Scores</h2><span class="aside" id="resAside"></span><div class="menu-wrap">
-          <button type="button" class="icon-btn small" data-menu aria-haspopup="menu" aria-expanded="false" aria-label="Scores menu"><svg class="ic"><use href="#i-more"/></svg></button>
-          <div class="menu" role="menu" hidden>
-            <button type="button" class="menu-item" role="menuitem" data-proxy="#exportBtn">Download Excel</button>
-            <button type="button" class="menu-item danger" role="menuitem" id="clearSheetsBtn">Clear sheets</button>
-          </div>
-        </div></div>
-        <div class="row filterrow">
-          <label class="check"><input type="checkbox" id="onlyIssues"> Show only sheets to check</label>
-          <span class="hint" id="searchNote" role="status"></span>
-        </div>
-        <div id="sampleBanner" class="banner" hidden>
-          <span>This is a <b>sample sheet</b> with a sample Set B key, so you can see how checking works.</span>
-          <button type="button" class="btn small" id="clearSample">Remove sample</button>
-        </div>
-        <div id="keyWarn" class="banner warn" role="status" hidden></div>
-        <div class="stats" id="stats"></div>
-        <div class="tablewrap"><table>
-          <thead id="thead"></thead>
-          <tbody id="tbody"></tbody>
-        </table></div>
-      </section>
-
-      <section class="glass panel" id="reviewPanel" aria-labelledby="h-rev" hidden>
-        <div class="panel-head"><h2 id="h-rev">Check one sheet</h2><span class="aside" id="revAside"></span></div>
-        <ul class="issues" id="issues"></ul>
-        <div id="dupBar" class="banner warn" hidden></div>
-        <div class="review">
-          <div>
-            <div class="photo" id="photo"></div>
-            <div class="legend"><span><i style="border-color:var(--ok)"></i>Correct</span><span><i style="border-color:var(--bad)"></i>Wrong</span><span><i style="border-color:var(--warn);border-radius:3px"></i>Check this item</span></div>
-          </div>
-          <div style="display:flex;flex-direction:column;gap:14px;min-width:0">
-            <div class="idfields">
-              <div class="field"><label class="lbl" for="rvClass">Class No.</label><input type="text" id="rvClass" inputmode="numeric" maxlength="2"></div>
-              <div class="field namef"><label class="lbl" for="rvName">Name</label><input type="text" id="rvName" placeholder="Type the student's name"></div>
-              <div class="field"><label class="lbl" for="rvSet">Set</label><select id="rvSet"><option value="">–</option><option>A</option><option>B</option><option>C</option><option>D</option></select></div>
-              <div class="field secf"><label class="lbl" for="rvSection">Section</label><input type="text" id="rvSection" list="sectionList" maxlength="40" autocomplete="off" placeholder="None"></div>
-            </div>
-            <p class="hint">Tap a letter to change an answer. Tap the shaded letter again to leave it blank.</p>
-            <div class="items" id="items"></div>
-            <div class="row">
-              <button type="button" class="btn small" id="useAsKey">Use as answer key</button>
-              <button type="button" class="btn small danger" id="removeSheet">Remove sheet</button>
-              <span id="removeConfirm" class="row" hidden><span class="hint">Remove this sheet?</span><button type="button" class="btn small danger" id="removeYes">Remove</button><button type="button" class="btn small" id="removeNo">Keep</button></span>
-            </div>
-          </div>
-        </div>
-      </section>
-      </section>
-
-      <section class="view" id="view-analysis" aria-label="Item analysis" hidden>
-      <section class="glass panel" aria-labelledby="h-ia">
-        <div class="panel-head"><h2 id="h-ia">Item analysis</h2><span class="aside">Also included in the Excel file</span></div>
-        <div id="iaFilter" class="row" hidden><label class="lbl" for="iaSection" style="margin:0">Show</label><select id="iaSection" style="width:auto"></select></div>
-        <div id="ia"></div>
-      </section>
-      </section>
-
-      <section class="view" id="view-reports" aria-label="Reports" hidden>
-      <section class="glass panel" aria-labelledby="h-mps">
-        <div class="panel-head"><h2 id="h-mps">Class MPS</h2><span class="aside" id="mpsAside"></span>
-          <div class="menu-wrap">
-            <button type="button" class="icon-btn small" data-menu aria-haspopup="menu" aria-expanded="false" aria-label="MPS menu"><svg class="ic"><use href="#i-more"/></svg></button>
-            <div class="menu" role="menu" hidden>
-              <button type="button" class="menu-item" role="menuitem" data-proxy="#printBtn">Print report</button>
-              <button type="button" class="menu-item" role="menuitem" data-proxy="#exportBtn">Download Excel</button>
-            </div>
-          </div></div>
-        <div id="mpsBox"></div>
-      </section>
-
-        <article class="glass panel" aria-labelledby="h-files">
-          <div class="panel-head"><h2 id="h-files">Export and files</h2></div>
-          <p class="hint">Download the results as an Excel file, print a report, or keep a copy of this test so you can open it again later.</p>
-          <div class="row">
-            <button type="button" class="btn primary pill" data-proxy="#exportBtn"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg>Download Excel</button>
-            <button type="button" class="btn pill" data-proxy="#printBtn"><svg class="ic" aria-hidden="true"><use href="#i-printer"/></svg>Print report</button>
-            <button type="button" class="btn pill" id="saveFileBtn"><svg class="ic" aria-hidden="true"><use href="#i-save"/></svg>Save test file</button>
-            <label class="btn pill" for="openInput"><svg class="ic" aria-hidden="true"><use href="#i-open"/></svg>Open test file</label>
-            <input class="sr" type="file" id="openInput" accept=".json,application/json">
-            <button type="button" class="btn pill quiet danger" id="newTestBtn"><svg class="ic" aria-hidden="true"><use href="#i-trash"/></svg>Clear all</button>
-          </div>
-        </article>
-      </section>
-    </main>
+    <a class="btn small primary" href="app/index.html">Open the app</a>
   </div>
-</div>
-<div id="printArea" aria-hidden="true"></div>
-<div class="toast" id="toast" role="status" hidden></div>
+</header>
 
-<!-- Load order matters: scripts share one global scope (no build step, works from a file). -->
-<script src="js/vendor/xlsx.full.min.js"></script>
-<script src="js/config.js"></script>
-<script src="js/data/layouts.js"></script>
-<script src="js/data/sample.js"></script>
-<script src="js/omr.js"></script>
-<script src="js/core/util.js"></script>
-<script src="js/core/state.js"></script>
-<script src="js/core/testfile.js"></script>
-<script src="js/core/classlist.js"></script>
-<script src="js/core/undo.js"></script>
-<script src="js/core/scoring.js"></script>
-<script src="js/core/analysis.js"></script>
-<script src="js/core/mps.js"></script>
-<script src="js/core/dashboard.js"></script>
-<script src="js/scanner.js"></script>
-<script src="js/ui/render-setup.js"></script>
-<script src="js/ui/render-results.js"></script>
-<script src="js/ui/render-review.js"></script>
-<script src="js/ui/render-analysis.js"></script>
-<script src="js/ui/render-mps.js"></script>
-<script src="js/ui/charts.js"></script>
-<script src="js/ui/render-dashboard.js"></script>
-<script src="js/ui/nav.js"></script>
-<script src="js/download.js"></script>
-<script src="js/excel/scores.js"></script>
-<script src="js/excel/mps.js"></script>
-<script src="js/excel/answers.js"></script>
-<script src="js/excel/analysis.js"></script>
-<script src="js/excel/notes.js"></script>
-<script src="js/excel.js"></script>
-<script src="js/ui/report.js"></script>
-<script src="js/ui/events.js"></script>
-<script src="js/ui/clear.js"></script>
-<script src="js/main.js"></script>
+<main id="main">
+  <!-- Hero -->
+  <section class="hero wrap" aria-labelledby="h1">
+    <div class="hero-text">
+      <p class="eyebrow">For teachers. Free. Runs in your browser.</p>
+      <h1 id="h1">Check answer sheets from your phone. Get your MPS in minutes.</h1>
+      <p class="lede">Take a photo of each filled sheet. SagotScan scores it, then gives you the class MPS and item analysis, ready for Excel. No account, and your photos never leave your device.</p>
+      <p class="fil" lang="fil">Libre. Walang account. Hindi umaalis ang litrato sa device mo.</p>
+      <div class="cta-row">
+        <a class="btn primary big" href="app/index.html" id="heroCta">Open SagotScan</a>
+        <a class="btn big" href="sheets/index.html">Print the answer sheet</a>
+      </div>
+      <p class="fine">It opens with a built-in sample sheet so you can try it first. To check your own class you need the SagotScan answer sheet (30, 50 or 60 items).</p>
+    </div>
+
+    <div class="hero-visual">
+      <img class="sheet-img" src="assets/sheet-sample-50.svg" width="1100" height="1438"
+           alt="A SagotScan 50-item answer sheet filled in with sample answers: four black corner squares, a class number and test set at the top, and items 1 to 50 in columns below.">
+      <div class="mock scores-mock" aria-hidden="true">
+        <div class="mock-head"><b>Scores</b><span class="pill info">Sample data</span></div>
+        <table>
+          <thead><tr><th>Class No.</th><th class="num">Score</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>03</td><td class="num"><b>41</b> / 50</td><td><span class="chip warn">1 item to check</span></td></tr>
+            <tr><td>04</td><td class="num"><b>38</b> / 50</td><td><span class="chip">Ready</span></td></tr>
+            <tr><td>05</td><td class="num"><b>35</b> / 50</td><td><span class="chip">Ready</span></td></tr>
+            <tr><td>06</td><td class="num"><b>33</b> / 50</td><td><span class="chip">Ready</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="section wrap how" id="how" aria-labelledby="how-h">
+    <div class="how-text">
+      <h2 id="how-h">From a stack of papers to your results</h2>
+      <ol class="steps">
+        <li><span class="num" aria-hidden="true">1</span><div><h3>Print the SagotScan answer sheet</h3><p>One blank sheet works for every test, in 30, 50 or 60 items. <a href="sheets/index.html">Print it here.</a></p></div></li>
+        <li><span class="num" aria-hidden="true">2</span><div><h3>Enter your answer key</h3><p>Type the letters for Sets A to D, or scan a key sheet. Giving a 40-item test? Use the 50-item sheet and set the test to 40.</p></div></li>
+        <li><span class="num" aria-hidden="true">3</span><div><h3>Photograph the filled sheets</h3><p>Take a photo or upload one. SagotScan reads the class number, the set and every answer, and flags double marks, faint marks and erasures for you to check.</p></div></li>
+        <li><span class="num" aria-hidden="true">4</span><div><h3>Read the results</h3><p>Class MPS with the DepEd mastery levels, item analysis, an Excel file and a printable report.</p></div></li>
+      </ol>
+    </div>
+    <div class="how-visual">
+      <div class="mock dash-mock" aria-hidden="true">
+        <div class="mock-head"><b>Class MPS</b><span class="pill info">Sample data</span></div>
+        <div class="dash-row">
+          <svg class="ring" viewBox="0 0 96 96" width="96" height="96"><defs><linearGradient id="ring1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4c6ef5"/><stop offset=".55" stop-color="#7c5cfa"/><stop offset="1" stop-color="#f59f5b"/></linearGradient></defs><circle cx="48" cy="48" r="40" fill="none" stroke="rgba(30,35,64,.08)" stroke-width="11"/><circle cx="48" cy="48" r="40" fill="none" stroke="url(#ring1)" stroke-width="11" stroke-linecap="round" stroke-dasharray="165.9 85.4" transform="rotate(-90 48 48)"/></svg>
+          <div><p class="big">66.0%</p><p class="small">Moving towards mastery<br>Target 75%</p></div>
+        </div>
+        <ul class="mini-stats">
+          <li><b>6</b><span>Sheets</span></li>
+          <li><b>1</b><span>To check</span></li>
+          <li><b>41</b><span>Highest</span></li>
+        </ul>
+      </div>
+      <p class="cap">The dashboard, with sample data.</p>
+    </div>
+  </section>
+
+  <!-- What you get -->
+  <section class="section wrap" id="get" aria-labelledby="get-h">
+    <h2 id="get-h">What you get</h2>
+    <div class="bento">
+      <article class="tile t-ia">
+        <h3>Know which questions failed</h3>
+        <p>Difficulty and discrimination for every item, a Retain, Revise or Reject decision, and notes when the key may be wrong. KR-20 and the standard error show how reliable the whole test is.</p>
+        <div class="mock ia-mock" aria-hidden="true">
+          <div class="scroll">
+          <table>
+            <thead><tr><th>Item</th><th>Key</th><th class="num">p</th><th class="num">D</th><th>Decision</th></tr></thead>
+            <tbody>
+              <tr><td>1</td><td>C</td><td class="num">0.83</td><td class="num">0.17</td><td><span class="chip bad">Reject</span></td></tr>
+              <tr><td>2</td><td>C</td><td class="num">0.65</td><td class="num">0.43</td><td><span class="chip">Retain</span></td></tr>
+              <tr><td>3</td><td>D</td><td class="num">0.73</td><td class="num">0.14</td><td><span class="chip bad">Reject</span><span class="note">Check the key: B drew more top scorers</span></td></tr>
+              <tr><td>4</td><td>A</td><td class="num">0.69</td><td class="num">0.43</td><td><span class="chip">Retain</span></td></tr>
+              <tr><td>5</td><td>B</td><td class="num">0.65</td><td class="num">0.29</td><td><span class="chip warn">Revise</span></td></tr>
+            </tbody>
+          </table>
+          </div>
+        </div>
+        <p class="cap">Sample data.</p>
+      </article>
+
+      <article class="tile t-mps">
+        <h3>Know how your class did</h3>
+        <p>MPS with the DepEd mastery levels, against a target you can change from the usual 75%. Per section, per set, and a score distribution.</p>
+        <div class="mock bands" aria-hidden="true">
+          <div class="band"><span>66&ndash;85</span><i style="width:62%"></i><b>4</b></div>
+          <div class="band"><span>35&ndash;65</span><i style="width:34%"></i><b>2</b></div>
+          <div class="band"><span>15&ndash;34</span><i style="width:0"></i><b>0</b></div>
+        </div>
+        <p class="cap">Sample data: students by percent score.</p>
+      </article>
+
+      <article class="tile t-fix">
+        <h3>Fix mistakes without redoing everything</h3>
+        <p>Found a wrong key after scoring? Accept another letter, change the key, credit everyone or drop the item. Every score, the MPS and the item analysis recompute. Anything destructive has an Undo.</p>
+      </article>
+
+      <article class="tile t-out">
+        <h3>Hand it in</h3>
+        <p>An Excel file, a printable report (with an option to leave student names out), and a saved test file you can reopen later.</p>
+        <ul class="tabs" aria-label="Sheets in the Excel file">
+          <li>Scores</li><li>MPS</li><li>Answers</li><li>Item Analysis</li><li>Item Fixes</li><li>Scan Notes</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <!-- The answer sheet -->
+  <section class="section wrap sheet-sec" id="sheet" aria-labelledby="sheet-h">
+    <div class="sheet-text">
+      <h2 id="sheet-h">The sheet is the whole trick</h2>
+      <p>SagotScan reads one specific printed sheet. Because it is always the same, the same blank sheet works for every test. Only your answer key changes.</p>
+      <ol class="pins-list">
+        <li><b>Four black corner squares.</b> They tell SagotScan where the sheet is, so a tilted or sideways photo still works. All four must be in the picture.</li>
+        <li><b>Class number and test set.</b> Students write the number in the boxes and shade the matching circles. The set is A to D.</li>
+        <li><b>Shade the circle completely.</b> One circle per item, with a pencil or dark pen. A check, a cross or half a circle does not count.</li>
+        <li><b>Items numbered down each column.</b> 10 per column on the 30 and 50-item sheets, 12 on the 60-item sheet.</li>
+      </ol>
+      <div class="cta-row">
+        <a class="btn primary" href="sheets/index.html">Print the answer sheet</a>
+      </div>
+      <p class="fine">Prints on A4 or Letter at 100%. Photos work best flat and in good light.</p>
+    </div>
+    <figure class="sheet-fig">
+      <div class="pin-wrap">
+        <img src="assets/sheet-blank-50.svg" width="1100" height="1438" alt="A blank SagotScan 50-item answer sheet, with the four corner squares, class number, test set, directions and numbered answer columns marked 1 to 4." loading="lazy">
+        <span class="pin" style="left:4.5%;top:3.5%" aria-hidden="true">1</span>
+        <span class="pin" style="left:95.5%;top:3.5%" aria-hidden="true">1</span>
+        <span class="pin" style="left:4.5%;top:96.5%" aria-hidden="true">1</span>
+        <span class="pin" style="left:95.5%;top:96.5%" aria-hidden="true">1</span>
+        <span class="pin" style="left:20%;top:33%" aria-hidden="true">2</span>
+        <span class="pin" style="left:39%;top:40.5%" aria-hidden="true">3</span>
+        <span class="pin" style="left:50%;top:72%" aria-hidden="true">4</span>
+      </div>
+      <figcaption>The 50-item sheet. The 30 and 60-item sheets use the same frame.</figcaption>
+    </figure>
+  </section>
+
+  <!-- Limits -->
+  <section class="section wrap" aria-labelledby="limits-h">
+    <div class="limits">
+      <h2 id="limits-h">What to know before you start</h2>
+      <ul>
+        <li><b>Only the SagotScan sheets are supported.</b> It reads the 30, 50 and 60-item designs above. A different sheet layout will not read correctly.</li>
+        <li><b>Your work is kept in this browser.</b> Photos are not stored. Use <b>Save test file</b> to keep a copy, because clearing your browser data erases the rest.</li>
+        <li><b>It is new.</b> It has been tested on generated sheets under tilted, dim and blurry conditions, and on a sample sheet, but not yet on many real classroom photos. Check the first few scans against the paper.</li>
+        <li><b>Flagged items need your eyes.</b> Double marks, faint marks and possible erasures are highlighted so you can decide.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section wrap faq" id="faq" aria-labelledby="faq-h">
+    <h2 id="faq-h">Questions</h2>
+    <details><summary>Is it free?</summary><p>Yes. There is nothing to buy and nothing to sign up for.</p></details>
+    <details><summary>Where do my students&rsquo; photos go?</summary><p>Nowhere. SagotScan reads each photo in your browser. It has no server and loads nothing from other sites, so nothing is uploaded.</p></details>
+    <details><summary>Does it work without internet?</summary><p>SagotScan has no server, so scoring and item analysis run in your browser. Once the page is open, losing your connection will not stop it. If you reload with no connection, the page itself will not load.</p></details>
+    <details><summary>Do I need an account or to install anything?</summary><p>No. Open the page in Chrome, Edge, Firefox or Safari on a phone or a computer.</p></details>
+    <details><summary>Can I use my own answer sheet?</summary><p>Not yet. SagotScan reads the 30, 50 and 60-item sheets on this page. Print them from the answer sheet page.</p></details>
+    <details><summary>My test has 40 items.</summary><p>Use the 50-item sheet and set the test to 40 items. Items after 40 are ignored.</p></details>
+    <details><summary>I teach several classes.</summary><p>Give each class a section name. You get the MPS per section and for all of them together, and the item analysis can be shown for one section at a time.</p></details>
+    <details><summary>Can I get the results into Excel?</summary><p>Yes. You get an Excel file with scores, MPS, every answer, the item analysis and notes on anything flagged. There is also a printable report.</p></details>
+    <details><summary>What if the key was wrong?</summary><p>Fix it after scoring: accept another letter, change the key, credit everyone, or drop the item. Everything recomputes.</p></details>
+    <details><summary>Is the code open?</summary><p>You can read it on <a href="https://github.com/EngrLance1/exam-checker">GitHub</a>. No licence has been chosen yet, so it is free to use but not yet free to reuse.</p></details>
+  </section>
+
+  <!-- Final call -->
+  <section class="final wrap" aria-labelledby="final-h">
+    <div class="final-band">
+      <h2 id="final-h">Try it with the built-in sample sheet. It takes a minute.</h2>
+      <div class="cta-row">
+        <a class="btn white big" href="app/index.html" id="finalCta">Open SagotScan</a>
+        <a class="btn ghost big" href="sheets/index.html">Print the answer sheet</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap foot">
+    <p><b>SagotScan</b> scores answer sheets and analyses the items. Photos are read in your browser and never uploaded.</p>
+    <p><a href="app/index.html">Open the app</a> &middot; <a href="sheets/index.html">Answer sheets</a> &middot; <a href="https://github.com/EngrLance1/exam-checker">GitHub</a></p>
+  </div>
+</footer>
+
+<a class="sticky-cta" id="stickyCta" href="app/index.html">Open SagotScan</a>
+<script src="landing.js"></script>
 </body>
 </html>

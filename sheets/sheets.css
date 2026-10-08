@@ -1,0 +1,50 @@
+/* sheets/sheets.css — the printable sheets page. Colours, radii and shadows come from ../app/css/tokens.css. */
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body { margin: 0; min-height: 100vh; color: var(--navy); font-family: var(--font); font-size: 16px; line-height: 1.55; font-variant-ligatures: none;
+  background: linear-gradient(135deg, var(--sky-a) 0%, var(--sky-b) 52%, var(--sky-c) 100%); background-attachment: fixed; }
+:focus-visible { outline: 3px solid var(--primary-strong); outline-offset: 2px; }
+h1, h2 { margin: 0; }
+.bg { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+.blob { position: absolute; border-radius: 50%; filter: blur(80px); }
+.blob.b1 { width: 520px; height: 520px; left: -140px; top: -120px; background: var(--blob-blue); }
+.blob.b2 { width: 480px; height: 480px; right: -120px; top: 30%; background: var(--blob-violet); }
+
+.page { max-width: 880px; margin: 0 auto; padding: 32px 20px 72px; display: flex; flex-direction: column; gap: var(--gap); }
+.head { display: flex; flex-direction: column; gap: 10px; }
+.back { color: var(--primary-strong); font-weight: 700; text-decoration: none; width: fit-content; }
+.back:hover { text-decoration: underline; }
+.head h1 { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; line-height: 1.1; }
+.lede { margin: 0; color: var(--muted); max-width: 62ch; font-size: 1.0625rem; }
+
+.glass { background: var(--glass); -webkit-backdrop-filter: blur(var(--blur)); backdrop-filter: blur(var(--blur)); border: 1px solid var(--glass-border); border-radius: var(--radius-card); box-shadow: var(--shadow-card); padding: var(--pad); }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) { .glass { background: var(--glass-solid); } }
+.controls { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px; }
+.field { display: flex; flex-direction: column; gap: 8px; max-width: 520px; }
+.lbl { font-size: 12.5px; font-weight: 600; color: var(--muted); }
+.hint { margin: 0; color: var(--muted); font-size: 13.5px; }
+.hint.center { text-align: center; }
+.seg { display: inline-flex; align-self: flex-start; padding: 3px; gap: 2px; border-radius: var(--radius-pill); background: rgba(30, 35, 64, 0.06); }
+.seg button { border: 0; background: transparent; padding: 8px 18px; min-height: 40px; border-radius: var(--radius-pill); cursor: pointer; font: inherit; font-weight: 700; font-size: 14.5px; color: var(--muted); }
+.seg button:hover { color: var(--navy); background: rgba(255, 255, 255, 0.6); }
+.seg button[aria-pressed="true"] { background: #fff; color: var(--primary-strong); box-shadow: 0 2px 8px rgba(80, 90, 180, 0.14); }
+.btn { display: inline-flex; align-items: center; justify-content: center; min-height: 46px; padding: 10px 24px; border-radius: var(--radius-pill); border: 0; font: inherit; font-weight: 700; cursor: pointer; color: #fff;
+  background: linear-gradient(135deg, var(--btn-a), var(--btn-b)); box-shadow: var(--shadow-btn); transition: transform var(--ease), box-shadow var(--ease); }
+.btn:hover { transform: translateY(var(--lift)); }
+.tips h2 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+.tips ol { margin: 0; padding-left: 22px; display: flex; flex-direction: column; gap: 6px; color: var(--navy); }
+.preview-wrap { display: flex; flex-direction: column; gap: 10px; }
+.preview { padding: 14px; }
+.preview svg { display: block; width: 100%; height: auto; border-radius: 6px; box-shadow: 0 2px 14px rgba(30, 35, 64, 0.12); }
+@media (prefers-reduced-motion: reduce) { .btn { transition: none; } .btn:hover { transform: none; } }
+@media (max-width: 520px) { .controls .btn { width: 100%; } .seg button { padding: 8px 12px; } }
+
+/* ---------- printing: only the sheet, 187 mm wide, centred, no browser margins ---------- */
+.print-area { display: none; }
+@media print {
+  @page { margin: 0; }
+  html, body { background: #fff !important; }
+  body > *:not(.print-area) { display: none !important; }
+  .print-area { display: flex; justify-content: center; align-items: flex-start; padding-top: 12mm; }
+  .print-area svg { display: block; width: 187mm; height: auto; }
+}

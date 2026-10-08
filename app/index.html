@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>SagotScan</title>
+<link rel="stylesheet" href="css/fonts.css">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="css/print.css">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <!-- Lucide line icons (lucide.dev, ISC licence), inlined so the app needs no icon library -->
+    <symbol id="i-dashboard" viewBox="0 0 24 24"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></symbol>
+    <symbol id="i-setup" viewBox="0 0 24 24"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="M12 11h4"/><path d="M12 16h4"/><path d="M8 11h.01"/><path d="M8 16h.01"/></symbol>
+    <symbol id="i-camera" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></symbol>
+    <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></symbol>
+    <symbol id="i-report" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol>
+    <symbol id="i-printer" viewBox="0 0 24 24"><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6"/><rect x="6" y="14" width="12" height="8" rx="1"/></symbol>
+    <symbol id="i-more" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></symbol>
+    <symbol id="i-save" viewBox="0 0 24 24"><path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"/><path d="M7 3v4a1 1 0 0 0 1 1h7"/></symbol>
+    <symbol id="i-open" viewBox="0 0 24 24"><path d="m6 14 1.5-2.9A2 2 0 0 1 9.24 10H20a2 2 0 0 1 1.94 2.5l-1.54 6a2 2 0 0 1-1.95 1.5H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H18a2 2 0 0 1 2 2v2"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><line x1="10" x2="10" y1="11" y2="17"/><line x1="14" x2="14" y1="11" y2="17"/></symbol>
+    <symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></symbol>
+  </defs>
+</svg>
+<div class="bg" aria-hidden="true"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i></div>
+
+<div class="window">
+  <aside class="side">
+    <div class="brand">
+      <svg class="logo" viewBox="0 0 40 40" aria-hidden="true">
+        <defs><linearGradient id="logoGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="var(--primary)"/><stop offset="1" stop-color="var(--violet)"/></linearGradient></defs>
+        <rect width="40" height="40" rx="12" fill="url(#logoGrad)"/>
+        <circle cx="14" cy="15" r="4" fill="none" stroke="#fff" stroke-width="2"/><circle cx="26" cy="15" r="4" fill="#fff"/>
+        <circle cx="14" cy="27" r="4" fill="#fff"/><circle cx="26" cy="27" r="4" fill="none" stroke="#fff" stroke-width="2"/>
+      </svg>
+      <div class="brand-text"><strong class="brand-name">SagotScan</strong><span class="brand-sub">Answer sheet checker</span></div>
+    </div>
+    <nav class="nav" aria-label="Main">
+        <button type="button" class="nav-item" data-view="dashboard" aria-current="page">
+          <svg class="ic" aria-hidden="true"><use href="#i-dashboard"/></svg><span class="nav-label">Dashboard</span>
+        </button>
+        <button type="button" class="nav-item" data-view="setup">
+          <svg class="ic" aria-hidden="true"><use href="#i-setup"/></svg><span class="nav-label">Test setup</span>
+        </button>
+        <button type="button" class="nav-item" data-view="scan">
+          <svg class="ic" aria-hidden="true"><use href="#i-camera"/></svg><span class="nav-label">Scan sheets</span>
+        </button>
+        <button type="button" class="nav-item" data-view="scores">
+          <svg class="ic" aria-hidden="true"><use href="#i-users"/></svg><span class="nav-label">Scores</span><span class="nav-badge" id="navBadge" hidden></span>
+        </button>
+        <button type="button" class="nav-item" data-view="analysis">
+          <svg class="ic" aria-hidden="true"><use href="#i-chart"/></svg><span class="nav-label">Item analysis</span>
+        </button>
+        <button type="button" class="nav-item" data-view="reports">
+          <svg class="ic" aria-hidden="true"><use href="#i-report"/></svg><span class="nav-label">Reports</span>
+        </button>
+    </nav>
+    <div class="side-foot">
+      <label class="nav-item" for="openInput"><svg class="ic" aria-hidden="true"><use href="#i-open"/></svg><span class="nav-label">Open test file</span></label>
+      <button type="button" class="nav-item" data-proxy="#saveFileBtn"><svg class="ic" aria-hidden="true"><use href="#i-save"/></svg><span class="nav-label">Save test file</span></button>
+    </div>
+  </aside>
+
+  <div class="content">
+    <header class="topbar">
+      <div class="welcome">
+        <span class="avatar" id="topAvatar" aria-hidden="true"><svg class="ic" aria-hidden="true"><use href="#i-setup"/></svg></span>
+        <div class="welcome-text"><span class="muted-sm">Test</span><h1 id="topTitle">Untitled test</h1></div>
+      </div>
+      <div class="top-actions">
+        <form class="search" role="search" onsubmit="return false">
+          <svg class="ic" aria-hidden="true"><use href="#i-search"/></svg>
+          <input type="search" id="searchInput" placeholder="Search" aria-label="Search students by name or class number" autocomplete="off">
+        </form>
+        <button class="btn primary pill desktop-only" id="exportBtn" type="button"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg><span>Download Excel</span></button>
+        <label class="btn primary pill phone-only" for="camInput"><svg class="ic" aria-hidden="true"><use href="#i-camera"/></svg><span>Take photo</span></label>
+        <button class="icon-btn" id="printBtn" type="button" aria-label="Print report" title="Print report"><svg class="ic" aria-hidden="true"><use href="#i-printer"/></svg></button>
+        <button class="icon-btn" id="attnBtn" type="button" aria-label="Sheets and items to check" title="Needs attention"><svg class="ic" aria-hidden="true"><use href="#i-bell"/></svg><i class="dot-red" id="attnDot" hidden></i></button>
+      </div>
+    </header>
+
+    <div id="storageWarn" class="banner warn" role="alert" hidden>
+      <span><b>This browser isn't saving your work.</b> Storage is full or blocked. Use Save test file so you don't lose it.</span>
+    </div>
+    <div id="printBar" class="confirm neutral" hidden>
+      <span class="row"><b>Print report</b><label class="check"><input type="checkbox" id="printNames" checked> Include student names</label></span>
+      <span class="row"><button type="button" class="btn small primary" id="printGo">Print</button><button type="button" class="btn small" id="printCancel">Cancel</button></span>
+    </div>
+    <div id="confirmBar" class="confirm" hidden>
+      <span id="confirmMsg"></span>
+      <span class="row"><button type="button" class="btn small danger" id="confirmYes">Clear</button><button type="button" class="btn small" id="confirmNo">Cancel</button></span>
+    </div>
+
+    <main id="main" tabindex="-1">
+      <section class="view" id="view-dashboard" aria-label="Dashboard">
+        <div class="cards3">
+          <article class="glass stat-card" id="cardSheets" aria-label="Sheets scanned"></article>
+          <article class="glass stat-card" id="cardMps" aria-label="Class MPS"></article>
+          <article class="glass stat-card" id="cardTarget" aria-label="Students at target"></article>
+        </div>
+        <div class="row-mid">
+          <article class="glass chart-card" id="cardChart" aria-label="Item analysis overview"></article>
+          <article class="glass list-card" id="cardAttn" aria-label="Needs attention"></article>
+        </div>
+        <div class="row-bottom">
+          <article class="glass list-card" id="cardRecent" aria-label="Recent activity"></article>
+          <article class="glass list-card" id="cardTop" aria-label="Top scores"></article>
+        </div>
+      </section>
+
+      <section class="view" id="view-setup" aria-label="Test setup" hidden>
+        <div class="narrow">
+      <section class="glass panel" aria-labelledby="h-setup">
+        <div class="panel-head"><h2 id="h-setup">Test details</h2></div>
+        <div class="field">
+          <label class="lbl" for="testName">Test name</label>
+          <input type="text" id="testName" placeholder="e.g. Empowerment Technologies – Q1 Summative">
+        </div>
+        <div class="field">
+          <span class="lbl">Number of items</span>
+          <div class="seg" id="sizeSeg" role="group" aria-label="Number of items">
+            <button type="button" data-size="30">30</button><button type="button" data-size="50">50</button><button type="button" data-size="60">60</button><button type="button" data-size="other">Other</button>
+          </div>
+          <div class="row size-other" id="sizeOther" hidden>
+            <label class="lbl" for="sizeCustom" style="margin:0">Items</label>
+            <input type="number" id="sizeCustom" min="1" max="60" step="1" inputmode="numeric" autocomplete="off" aria-describedby="sizeHint">
+          </div>
+          <p class="hint" id="sizeHint" hidden></p>
+        </div>
+        <div class="field">
+          <label class="lbl" for="targetInput">Target MPS (%)</label>
+          <input type="number" id="targetInput" min="1" max="100" step="1" inputmode="numeric" autocomplete="off" aria-describedby="targetHint" style="width:90px">
+          <p class="hint" id="targetHint">Class MPS and item MPS are compared to this. DepEd's usual target is 75.</p>
+        </div>
+        <div class="field">
+          <div class="row between">
+            <span class="lbl" style="margin:0">Answer key</span>
+            <div class="seg" id="setSeg" role="group" aria-label="Test set">
+              <button type="button" data-set="A">Set A</button><button type="button" data-set="B">B</button><button type="button" data-set="C">C</button><button type="button" data-set="D">D</button>
+            </div>
+          </div>
+          <textarea id="keyInput" spellcheck="false" autocomplete="off" aria-describedby="keyHint" style="margin-top:8px"></textarea>
+          <div class="row between" style="margin-top:6px">
+            <span class="keycount" id="keyCount"></span>
+            <span class="row" style="gap:8px"><button type="button" class="btn small danger" id="clearKeyBtn">Clear key</button><button type="button" class="btn small" id="keyScanBtn">Scan a key sheet</button></span>
+          </div>
+          <p class="hint" id="keyHint">Type the letters in order, like <span class="mono">ABDCA BBCDA</span>. Spaces and numbers are ignored. Use a dash for an item that isn't scored. Only fill the sets you used.</p>
+        </div>
+        <details class="field roster">
+          <summary>Class list (fills in names)</summary>
+          <p class="hint">One student per line: class number, then name, like <span class="mono">12 Dela Cruz, Juan</span>. Names go to sheets in the section chosen on the Scan sheets page, now and for sheets you scan later.</p>
+          <textarea id="rosterInput" spellcheck="false" autocomplete="off" aria-label="Class list" style="margin-top:8px"></textarea>
+          <div class="row between" style="margin-top:6px">
+            <span class="hint" id="rosterNote" role="status"></span>
+            <span class="row" style="gap:8px"><button type="button" class="btn small danger" id="rosterClear">Clear list</button><button type="button" class="btn small" id="rosterApply">Add names</button></span>
+          </div>
+        </details>
+      </section>
+        </div>
+      </section>
+
+      <section class="view" id="view-scan" aria-label="Scan sheets" hidden>
+        <div class="narrow">
+      <section class="glass panel" aria-labelledby="h-scan">
+        <div class="panel-head"><h2 id="h-scan">Scan answer sheets</h2></div>
+        <div class="field">
+          <label class="lbl" for="sectionInput">Section <span class="hint">(optional)</span></label>
+          <input type="text" id="sectionInput" list="sectionList" maxlength="40" placeholder="e.g. 10-Newton" autocomplete="off" aria-describedby="sectionHint">
+          <datalist id="sectionList"></datalist>
+          <p class="hint" id="sectionHint">Sheets you scan next are filed under this section. Leave it empty if you only have one section.</p>
+        </div>
+        <div id="captureNote" class="capture-note" hidden></div>
+        <div class="drop" id="drop">
+          <div class="row">
+            <label class="btn primary" for="camInput">
+              <svg width="17" height="17" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 6h3l1.5-2h5L13 6h3v9H2z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="9" cy="10.3" r="2.8" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+              Take photo
+            </label>
+            <label class="btn" for="fileInput">Upload photos</label>
+          </div>
+          <input class="sr" type="file" id="camInput" accept="image/*" capture="environment">
+          <input class="sr" type="file" id="fileInput" accept="image/*" multiple>
+          <p>You can also drop photos here. It works out on its own whether the sheet has 30, 50 or 60 items.</p>
+        </div>
+        <ul class="queue" id="queue" aria-live="polite"></ul>
+        <ul class="tips">
+          <li>Lay the sheet flat in good light, with no shadow across it.</li>
+          <li>Keep all four black corner squares inside the photo.</li>
+          <li>Any angle works, even sideways or upside down.</li>
+        </ul>
+      </section>
+        </div>
+      </section>
+
+      <section class="view" id="view-scores" aria-label="Scores" hidden>
+      <section class="glass panel" aria-labelledby="h-res">
+        <div class="panel-head"><h2 id="h-res">Scores</h2><span class="aside" id="resAside"></span><div class="menu-wrap">
+          <button type="button" class="icon-btn small" data-menu aria-haspopup="menu" aria-expanded="false" aria-label="Scores menu"><svg class="ic"><use href="#i-more"/></svg></button>
+          <div class="menu" role="menu" hidden>
+            <button type="button" class="menu-item" role="menuitem" data-proxy="#exportBtn">Download Excel</button>
+            <button type="button" class="menu-item danger" role="menuitem" id="clearSheetsBtn">Clear sheets</button>
+          </div>
+        </div></div>
+        <div class="row filterrow">
+          <label class="check"><input type="checkbox" id="onlyIssues"> Show only sheets to check</label>
+          <span class="hint" id="searchNote" role="status"></span>
+        </div>
+        <div id="sampleBanner" class="banner" hidden>
+          <span>This is a <b>sample sheet</b> with a sample Set B key, so you can see how checking works.</span>
+          <button type="button" class="btn small" id="clearSample">Remove sample</button>
+        </div>
+        <div id="keyWarn" class="banner warn" role="status" hidden></div>
+        <div class="stats" id="stats"></div>
+        <div class="tablewrap"><table>
+          <thead id="thead"></thead>
+          <tbody id="tbody"></tbody>
+        </table></div>
+      </section>
+
+      <section class="glass panel" id="reviewPanel" aria-labelledby="h-rev" hidden>
+        <div class="panel-head"><h2 id="h-rev">Check one sheet</h2><span class="aside" id="revAside"></span></div>
+        <ul class="issues" id="issues"></ul>
+        <div id="dupBar" class="banner warn" hidden></div>
+        <div class="review">
+          <div>
+            <div class="photo" id="photo"></div>
+            <div class="legend"><span><i style="border-color:var(--ok)"></i>Correct</span><span><i style="border-color:var(--bad)"></i>Wrong</span><span><i style="border-color:var(--warn);border-radius:3px"></i>Check this item</span></div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:14px;min-width:0">
+            <div class="idfields">
+              <div class="field"><label class="lbl" for="rvClass">Class No.</label><input type="text" id="rvClass" inputmode="numeric" maxlength="2"></div>
+              <div class="field namef"><label class="lbl" for="rvName">Name</label><input type="text" id="rvName" placeholder="Type the student's name"></div>
+              <div class="field"><label class="lbl" for="rvSet">Set</label><select id="rvSet"><option value="">–</option><option>A</option><option>B</option><option>C</option><option>D</option></select></div>
+              <div class="field secf"><label class="lbl" for="rvSection">Section</label><input type="text" id="rvSection" list="sectionList" maxlength="40" autocomplete="off" placeholder="None"></div>
+            </div>
+            <p class="hint">Tap a letter to change an answer. Tap the shaded letter again to leave it blank.</p>
+            <div class="items" id="items"></div>
+            <div class="row">
+              <button type="button" class="btn small" id="useAsKey">Use as answer key</button>
+              <button type="button" class="btn small danger" id="removeSheet">Remove sheet</button>
+              <span id="removeConfirm" class="row" hidden><span class="hint">Remove this sheet?</span><button type="button" class="btn small danger" id="removeYes">Remove</button><button type="button" class="btn small" id="removeNo">Keep</button></span>
+            </div>
+          </div>
+        </div>
+      </section>
+      </section>
+
+      <section class="view" id="view-analysis" aria-label="Item analysis" hidden>
+      <section class="glass panel" aria-labelledby="h-ia">
+        <div class="panel-head"><h2 id="h-ia">Item analysis</h2><span class="aside">Also included in the Excel file</span></div>
+        <div id="iaFilter" class="row" hidden><label class="lbl" for="iaSection" style="margin:0">Show</label><select id="iaSection" style="width:auto"></select></div>
+        <div id="ia"></div>
+      </section>
+      </section>
+
+      <section class="view" id="view-reports" aria-label="Reports" hidden>
+      <section class="glass panel" aria-labelledby="h-mps">
+        <div class="panel-head"><h2 id="h-mps">Class MPS</h2><span class="aside" id="mpsAside"></span>
+          <div class="menu-wrap">
+            <button type="button" class="icon-btn small" data-menu aria-haspopup="menu" aria-expanded="false" aria-label="MPS menu"><svg class="ic"><use href="#i-more"/></svg></button>
+            <div class="menu" role="menu" hidden>
+              <button type="button" class="menu-item" role="menuitem" data-proxy="#printBtn">Print report</button>
+              <button type="button" class="menu-item" role="menuitem" data-proxy="#exportBtn">Download Excel</button>
+            </div>
+          </div></div>
+        <div id="mpsBox"></div>
+      </section>
+
+        <article class="glass panel" aria-labelledby="h-files">
+          <div class="panel-head"><h2 id="h-files">Export and files</h2></div>
+          <p class="hint">Download the results as an Excel file, print a report, or keep a copy of this test so you can open it again later.</p>
+          <div class="row">
+            <button type="button" class="btn primary pill" data-proxy="#exportBtn"><svg class="ic" aria-hidden="true"><use href="#i-download"/></svg>Download Excel</button>
+            <button type="button" class="btn pill" data-proxy="#printBtn"><svg class="ic" aria-hidden="true"><use href="#i-printer"/></svg>Print report</button>
+            <button type="button" class="btn pill" id="saveFileBtn"><svg class="ic" aria-hidden="true"><use href="#i-save"/></svg>Save test file</button>
+            <label class="btn pill" for="openInput"><svg class="ic" aria-hidden="true"><use href="#i-open"/></svg>Open test file</label>
+            <input class="sr" type="file" id="openInput" accept=".json,application/json">
+            <button type="button" class="btn pill quiet danger" id="newTestBtn"><svg class="ic" aria-hidden="true"><use href="#i-trash"/></svg>Clear all</button>
+          </div>
+        </article>
+      </section>
+    </main>
+  </div>
+</div>
+<div id="printArea" aria-hidden="true"></div>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<!-- Load order matters: scripts share one global scope (no build step, works from a file). -->
+<script src="js/vendor/xlsx.full.min.js"></script>
+<script src="js/config.js"></script>
+<script src="js/data/layouts.js"></script>
+<script src="js/data/sample.js"></script>
+<script src="js/omr.js"></script>
+<script src="js/core/util.js"></script>
+<script src="js/core/state.js"></script>
+<script src="js/core/testfile.js"></script>
+<script src="js/core/classlist.js"></script>
+<script src="js/core/undo.js"></script>
+<script src="js/core/scoring.js"></script>
+<script src="js/core/analysis.js"></script>
+<script src="js/core/mps.js"></script>
+<script src="js/core/dashboard.js"></script>
+<script src="js/scanner.js"></script>
+<script src="js/ui/render-setup.js"></script>
+<script src="js/ui/render-results.js"></script>
+<script src="js/ui/render-review.js"></script>
+<script src="js/ui/render-analysis.js"></script>
+<script src="js/ui/render-mps.js"></script>
+<script src="js/ui/charts.js"></script>
+<script src="js/ui/render-dashboard.js"></script>
+<script src="js/ui/nav.js"></script>
+<script src="js/download.js"></script>
+<script src="js/excel/scores.js"></script>
+<script src="js/excel/mps.js"></script>
+<script src="js/excel/answers.js"></script>
+<script src="js/excel/analysis.js"></script>
+<script src="js/excel/notes.js"></script>
+<script src="js/excel.js"></script>
+<script src="js/ui/report.js"></script>
+<script src="js/ui/events.js"></script>
+<script src="js/ui/clear.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

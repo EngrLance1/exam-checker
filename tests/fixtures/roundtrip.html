@@ -1,0 +1,102 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Sheet round-trip fixture</title>
+<!-- Loads the app's own reader and the sheet generator, then "photographs" generated sheets and reads them back.
+     Used by tests/browser-sheets.js. Not part of the product. -->
+<script src="../../app/js/omr.js"></script>
+<script src="../../app/js/data/layouts.js"></script>
+<script src="../../sheets/sheet-svg.js"></script>
+<script>
+// Deterministic random numbers.
+function rng(seed) { let s = seed; return () => (s = (s * 1664525 + 1013904223) % 4294967296) / 4294967296; }
+
+// Random answers: mostly one letter per item, some blank, some double-marked.
+function makeFill(size, seed) {
+  const r = rng(seed), L = "ABCD";
+  const answers = [], expect = [];
+  for (let i = 0; i < size; i++) {
+    const x = r();
+    if (x < 0.08) { answers.push(""); expect.push({ flag: "blank" }); }
+    else if (x < 0.13) { const a = Math.floor(r() * 4); let b = Math.floor(r() * 4); if (b === a) b = (b + 1) % 4; answers.push(L[a] + L[b]); expect.push({ flag: "multiple" }); }
+    else { const a = Math.floor(r() * 4); answers.push(L[a]); expect.push({ choice: a }); }
+  }
+  const classNo = String(Math.floor(r() * 100)).padStart(2, "0"), set = L[Math.floor(r() * 4)];
+  return { fill: { answers, classNo, set }, expect, classNo, set };
+}
+
+// Solves the 3x3 projective map taking 4 source points to 4 destination points (same idea as OMR.homography, but any quad to any quad).
+function mapping(src, dst) {
+  const A = [], b = [];
+  for (let i = 0; i < 4; i++) {
+    const [x, y] = src[i], [u, v] = dst[i];
+    A.push([x, y, 1, 0, 0, 0, -u * x, -u * y]); b.push(u);
+    A.push([0, 0, 0, x, y, 1, -v * x, -v * y]); b.push(v);
+  }
+  for (let c = 0; c < 8; c++) {
+    let piv = c;
+    for (let r = c + 1; r < 8; r++) if (Math.abs(A[r][c]) > Math.abs(A[piv][c])) piv = r;
+    [A[c], A[piv]] = [A[piv], A[c]]; [b[c], b[piv]] = [b[piv], b[c]];
+    for (let r = 0; r < 8; r++) { if (r === c) continue; const f = A[r][c] / A[c][c]; for (let k = c; k < 8; k++) A[r][k] -= f * A[c][k]; b[r] -= f * b[c]; }
+  }
+  const h = b.map((v, i) => v / A[i][i]);
+  return (x, y) => { const d = h[6] * x + h[7] * y + 1; return [(h[0] * x + h[1] * y + h[2]) / d, (h[3] * x + h[4] * y + h[5]) / d]; };
+}
+
+// Draws the sheet, then "photographs" it: perspective, rotation, background, light, noise, blur. Returns the same grayscale object the app uses.
+async function photo(size, fill, v = {}) {
+  const W = v.w || 1400, H = v.h || 1750;
+  const svg = buildSheetSVG(size, LAYOUTS, { fill, ink: v.ink, width: 1200, height: Math.round(1200 * (1000 * LAYOUTS[size].r / LAYOUTS[size].ry + 2 * SHEET_PAD) / (1000 + 2 * SHEET_PAD)) });
+  const img = new Image();
+  img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+  await img.decode();
+  const sw = 1200, sh = Math.round(sw * (1000 * LAYOUTS[size].r / LAYOUTS[size].ry + 2 * SHEET_PAD) / (1000 + 2 * SHEET_PAD));
+  const sc = document.createElement("canvas"); sc.width = sw; sc.height = sh;
+  const sctx = sc.getContext("2d"); sctx.fillStyle = "#fff"; sctx.fillRect(0, 0, sw, sh); sctx.drawImage(img, 0, 0, sw, sh);
+  const src = sctx.getImageData(0, 0, sw, sh);
+
+  // Where the sheet's corners land in the photo (fractions of the photo), then rotated by v.rot quarter-turns.
+  const q = (v.quad || [[0.09, 0.05], [0.93, 0.08], [0.95, 0.93], [0.06, 0.96]]).map(([x, y]) => [x * W, y * H]);
+  const rot = (v.rot || 0) % 4;
+  const dst = [0, 1, 2, 3].map((i) => q[(i + rot) % 4]);
+  const back = mapping(dst, [[0, 0], [sw, 0], [sw, sh], [0, sh]]); // photo pixel -> sheet pixel
+  const out = new Uint8ClampedArray(W * H * 4);
+  const gain = v.dim || 0, noise = v.noise || 0, r = rng(99);
+  const desk = v.desk === undefined ? 75 : v.desk;
+  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+    const [u, w] = back(x, y);
+    let R = desk, G = desk, B = desk;                             // the desk behind the sheet (dark by default)
+    if (u >= 0 && w >= 0 && u < sw - 1 && w < sh - 1) {
+      const x0 = u | 0, y0 = w | 0, fx = u - x0, fy = w - y0, i = (y0 * sw + x0) * 4, j = i + sw * 4;
+      const px = (k) => (src.data[i + k] * (1 - fx) + src.data[i + 4 + k] * fx) * (1 - fy) + (src.data[j + k] * (1 - fx) + src.data[j + 4 + k] * fx) * fy;
+      R = px(0); G = px(1); B = px(2);
+    }
+    let shade = 1 - gain * (x / W * 0.5 + y / H * 0.5);          // lighting falls off across the photo
+    const n = noise ? (r() - 0.5) * 2 * noise : 0;
+    const o = (y * W + x) * 4;
+    out[o] = R * shade + n; out[o + 1] = G * shade + n; out[o + 2] = B * shade + n; out[o + 3] = 255;
+  }
+  let c = document.createElement("canvas"); c.width = W; c.height = H;
+  c.getContext("2d").putImageData(new ImageData(out, W, H), 0, 0);
+  if (v.blur) { const c2 = document.createElement("canvas"); c2.width = W; c2.height = H; const x2 = c2.getContext("2d"); x2.filter = `blur(${v.blur}px)`; x2.drawImage(c, 0, 0); c = c2; }
+  const id = c.getContext("2d").getImageData(0, 0, W, H);
+  return OMR.toGray(id.data, W, H);
+}
+
+// Reads a photo and compares with what was drawn. Returns a summary the test can assert on.
+async function roundTrip(size, seed, variant) {
+  const { fill, expect, classNo, set } = makeFill(size, seed);
+  const gray = await photo(size, fill, variant);
+  const res = OMR.read(gray, LAYOUTS);
+  if (!res.ok) return { ok: false, error: res.error };
+  const bad = [];
+  expect.forEach((e, i) => {
+    const it = res.items[i];
+    if (!it) { bad.push(`item ${i + 1}: the reader found only ${res.items.length} items (it chose the ${res.size}-item layout)`); return; }
+    if (e.choice !== undefined) { if (it.choice !== e.choice || it.flag) bad.push(`item ${i + 1}: wanted ${"ABCD"[e.choice]}, got ${it.choice == null ? "none" : "ABCD"[it.choice]} (${it.flag || "no flag"})`); }
+    else if (e.flag === "blank") { if (it.choice !== null || it.flag !== "blank") bad.push(`item ${i + 1}: wanted blank, got ${it.choice == null ? "none" : "ABCD"[it.choice]} (${it.flag})`); }
+    else if (e.flag === "multiple") { if (it.flag !== "multiple") bad.push(`item ${i + 1}: wanted double mark, got ${it.choice == null ? "none" : "ABCD"[it.choice]} (${it.flag || "no flag"})`); }
+  });
+  return { ok: true, size: res.size, wantedSize: size, classNo: res.classNo, wantedClassNo: classNo, set: res.set, wantedSet: set, bad, conf: res.conf };
+}
+window.roundTrip = roundTrip;
+</script>
