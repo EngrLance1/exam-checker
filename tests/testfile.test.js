@@ -56,7 +56,8 @@ test("rejects bad sizes and damaged sheets", () => {
   const ok = (mut) => { const g = JSON.parse(JSON.stringify(f)); mut(g); return parse(load(), JSON.stringify(g)).ok; };
   assert.equal(ok(() => {}), true); // control: untouched file is fine
   assert.equal(ok((g) => { g.test.size = 0; }), false);
-  assert.equal(ok((g) => { g.test.size = 61; }), false);
+  assert.equal(ok((g) => { g.test.size = 76; }), false);
+  assert.equal(ok((g) => { g.test.size = 61; }), true); // up to 75 is allowed now
   assert.equal(ok((g) => { g.test.size = 30.5; }), false);
   assert.equal(ok((g) => { g.sheets[0].answers.pop(); }), false);
   assert.equal(ok((g) => { g.sheets[0].answers[0] = "Z"; }), false);

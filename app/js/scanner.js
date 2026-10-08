@@ -32,7 +32,7 @@ async function processSource(src, name, opts = {}) {
   let im;
   try { im = await loadImage(src); } catch (e) { q.fail("This file couldn't be opened as an image."); return; }
   await tick();
-  const res = OMR.read(im.gray, LAYOUTS);
+  const res = readSheet(im.gray, state.test.size); // the sheet made for this test's length, or a standard 30/50/60 sheet
   if (!res.ok) { q.fail(res.error); return; }
   const letters = res.items.map((it) => it.flag === "multiple" ? "*" : it.choice == null ? "" : LET[it.choice]);
   if (state.keyCapture) {

@@ -5,7 +5,7 @@ const vm = require("node:vm");
 
 const ROOT = path.join(__dirname, "..", "..");
 const APP = "app/"; // the app lives in /app (the landing page owns the site root)
-const FILES = [APP + "js/config.js", APP + "js/core/util.js", APP + "js/core/state.js", APP + "js/core/testfile.js", APP + "js/core/classlist.js", APP + "js/core/undo.js", APP + "js/core/scoring.js", APP + "js/core/analysis.js", APP + "js/core/mps.js", APP + "js/core/dashboard.js", APP + "js/ui/charts.js"];
+const FILES = [APP + "js/config.js", APP + "js/core/util.js", APP + "js/core/state.js", APP + "js/data/layouts.js", APP + "js/core/sheetlayout.js", APP + "js/core/testfile.js", APP + "js/core/classlist.js", APP + "js/core/undo.js", APP + "js/core/scoring.js", APP + "js/core/analysis.js", APP + "js/core/mps.js", APP + "js/core/dashboard.js", APP + "js/ui/charts.js"];
 
 function load() {
   const store = {};

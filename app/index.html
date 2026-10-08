@@ -133,7 +133,7 @@
           </div>
           <div class="row size-other" id="sizeOther" hidden>
             <label class="lbl" for="sizeCustom" style="margin:0">Items</label>
-            <input type="number" id="sizeCustom" min="1" max="60" step="1" inputmode="numeric" autocomplete="off" aria-describedby="sizeHint">
+            <input type="number" id="sizeCustom" min="1" max="75" step="1" inputmode="numeric" autocomplete="off" aria-describedby="sizeHint">
           </div>
           <p class="hint" id="sizeHint" hidden></p>
         </div>
@@ -190,13 +190,14 @@
           </div>
           <input class="sr" type="file" id="camInput" accept="image/*" capture="environment">
           <input class="sr" type="file" id="fileInput" accept="image/*" multiple>
-          <p>You can also drop photos here. It works out on its own whether the sheet has 30, 50 or 60 items.</p>
+          <p>You can also drop photos here. It works out the sheet layout on its own.</p>
         </div>
         <ul class="queue" id="queue" aria-live="polite"></ul>
         <ul class="tips">
           <li>Lay the sheet flat in good light, with no shadow across it.</li>
           <li>Keep all four black corner squares inside the photo.</li>
           <li>Any angle works, even sideways or upside down.</li>
+          <li>Need a sheet? <a href="../sheets/index.html" target="_blank" rel="noopener">Print one here</a>, for any test from 1 to 75 items.</li>
         </ul>
       </section>
         </div>
@@ -303,6 +304,7 @@
 <script src="js/omr.js"></script>
 <script src="js/core/util.js"></script>
 <script src="js/core/state.js"></script>
+<script src="js/core/sheetlayout.js"></script>
 <script src="js/core/testfile.js"></script>
 <script src="js/core/classlist.js"></script>
 <script src="js/core/undo.js"></script>
@@ -310,6 +312,7 @@
 <script src="js/core/analysis.js"></script>
 <script src="js/core/mps.js"></script>
 <script src="js/core/dashboard.js"></script>
+<script src="js/reader.js"></script>
 <script src="js/scanner.js"></script>
 <script src="js/ui/render-setup.js"></script>
 <script src="js/ui/render-results.js"></script>

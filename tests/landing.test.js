@@ -127,7 +127,9 @@ test("the sheet explainer's facts match the layout data", () => {
   const L = new Function(read("app/js/data/layouts.js").split("\n").find((l) => l.startsWith("const LAYOUTS")) + ";return LAYOUTS")();
   const perCol = (k) => { const ys = L[k].items.map((g) => g[0][0]); return L[k].items.filter((g) => g[0][0] === ys[0]).length; };
   assert.equal(perCol("30"), 10); assert.equal(perCol("50"), 10); assert.equal(perCol("60"), 12);
-  assert.match(html, /10 per column on the 30 and 50-item sheets, 12 on the 60-item sheet/);
+  const rows = (n) => { const ctx = {}; return new Function("LAYOUTS", read("app/js/config.js").replace(/^const /gm, "var ") + read("app/js/core/sheetlayout.js").replace(/^const /gm, "var ") + `; return sheetShape(${n}).rows`)(L); };
+  assert.equal(rows(50), 10); assert.equal(rows(51), 12); assert.equal(rows(60), 12); assert.equal(rows(61), 15); assert.equal(rows(75), 15);
+  assert.match(html, /10 per column up to 50 items, 12 up to 60, 15 up to 75/);
   assert.match(textOf(html), /Class number and test set/);
 });
 
@@ -179,7 +181,8 @@ test("the sheets page has a title, headings, the print instructions and works fr
   assert.match(sheetsHtml, /<title>[^<]+<\/title>/);
   assert.equal((sheetsHtml.match(/<h1>/g) || []).length, 1);
   assert.match(sheetsHtml, /Print at 100%/);
-  assert.match(sheetsHtml, /30 items/); assert.match(sheetsHtml, /50 items/); assert.match(sheetsHtml, /60 items/);
+  assert.match(sheetsHtml, /id="sizeInput"[^>]*min="1" max="75"/);
+  for (const n of [20, 25, 30, 40, 50, 60, 75]) assert.match(sheetsHtml, new RegExp(`data-size="${n}"`));
   for (const m of sheetsHtml.matchAll(/(?:href|src)="([^"#]+)"/g)) if (!/^https?:/.test(m[1])) assert.ok(fs.existsSync(path.join(ROOT, "sheets", m[1])), m[1]);
-  assert.match(sheetsHtml, /For a test with fewer items|Giving a test with fewer items/);
+  assert.match(sheetsHtml, /1 to 75/);
 });

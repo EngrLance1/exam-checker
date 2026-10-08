@@ -10,7 +10,9 @@ function renderSizeHint(n, raw) {
   if (n == null && raw !== undefined) el.textContent = `Enter a whole number from 1 to ${MAX_ITEMS}.`;
   else {
     const c = n == null ? state.test.size : n;
-    el.textContent = `Use the ${sheetSizeFor(c)}-item sheet. Items after ${c} are ignored.`;
+    const std = sheetSizeFor(c); // c is a whole number from 1 to MAX_ITEMS, so it is safe to put in the page
+    el.innerHTML = `<a href="../sheets/index.html#${c}" target="_blank" rel="noopener">Print the ${c}-item sheet</a>`
+      + (std && std !== c ? `, or use the ${std}-item sheet (items after ${c} are ignored).` : ".");
   }
 }
 

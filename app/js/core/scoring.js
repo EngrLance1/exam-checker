@@ -49,7 +49,10 @@ function issuesOf(sh) {
   const usedSets = LET.split("").filter((s) => state.test.keys[s]);
   if (!sh.set && usedSets.length > 1) out.push({ t: "Test set not shaded", c: "warn" });
   else if (sh.set && usedSets.length && !state.test.keys[sh.set] && usedSets.length > 1) out.push({ t: `No key for Set ${sh.set}`, c: "bad" });
-  if (sh.size !== sheetSizeFor(state.test.size)) out.push({ t: `${sh.size}-item sheet (a ${state.test.size}-item test uses the ${sheetSizeFor(state.test.size)}-item sheet)`, c: "bad" });
+  if (!rightSize(sh)) {
+    const std = sheetSizeFor(state.test.size);
+    out.push({ t: `${sh.size}-item sheet (a ${state.test.size}-item test uses the ${state.test.size}-item sheet${std && std !== state.test.size ? ` or the ${std}-item sheet` : ""})`, c: "bad" });
+  }
   return out;
 }
 
@@ -82,7 +85,8 @@ function duplicatesOf(sh) {
   return state.sheets.filter((o) => o !== sh && o.classNo === sh.classNo && secOf(o) === secOf(sh));
 }
 // Sheets of the wrong printed size for this test. They are scored (and flagged) but kept out of item analysis.
-const rightSize = (sh) => sh.size === sheetSizeFor(state.test.size);
+// The right sheet for a test: one made for exactly this many items, or the standard 30/50/60 sheet that fits it.
+const rightSize = (sh) => sh.size === state.test.size || sh.size === sheetSizeFor(state.test.size);
 
 // Problems with the answer keys themselves, one sentence each.
 function keyProblems() {

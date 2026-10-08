@@ -4,8 +4,11 @@
 // Every bubble position in app/js/data/layouts.js is a fraction of that frame. This file draws the sheet in that same
 // frame, taking the bubble positions straight from the layout data, so a printed sheet cannot drift from the scanner.
 //
-//   buildSheetSVG(size, LAYOUTS, { fill })      size: 30 | 50 | 60
+//   buildSheetSVG(size, layouts, { fill })      size: any number of items; layouts: an object with a layout under the key String(size),
+//                                              e.g. { 40: layoutFor(40) } (see app/js/core/sheetlayout.js)
 //   fill (optional, to draw a filled sample): { answers: ["A", "", "BC", ...], classNo: "07", set: "B" }
+//   code (optional, default on): the sheet code, a tiny row of squares that tells the scanner how many items the sheet has.
+//                                 Pass { code: false } to draw a sheet like the ones printed before the code existed (for tests).
 //   ink (optional): colour of shaded bubbles, default near-black. A grey like "#666" imitates light pencil.
 //   An item with two letters is drawn double-marked; an empty string is left blank.
 
@@ -47,6 +50,13 @@ function buildSheetSVG(size, layouts, opts = {}) {
   // Four corner squares: their centres are the corners of the frame.
   const half = SHEET_MARKER / 2;
   for (const [cx, cy] of [[0, 0], [W, 0], [W, H], [0, H]]) add(`<rect class="corner" x="${n(cx - half)}" y="${n(cy - half)}" width="${SHEET_MARKER}" height="${SHEET_MARKER}" fill="#000"/>`);
+
+  // The sheet code: how many items this sheet has, as 11 small squares the scanner reads (see app/js/core/sheetlayout.js).
+  if (opts.code !== false) {
+    const bits = sheetCodeBits(size), cs = SHEET_CODE_SQUARE;
+    sheetCodePositions().forEach(([fx, fy], k) => add(`<rect class="code" x="${n(X(fx) - cs / 2)}" y="${n(Y(fy) - cs / 2)}" width="${cs}" height="${cs}" fill="${bits[k] ? "#000" : "#fff"}" stroke="${bits[k] ? "#000" : "#999"}" stroke-width="1"/>`));
+    add(text(X(sheetCodePositions()[SHEET_CODE_COUNT - 1][0]) + cs / 2, Y(SHEET_CODE_Y) + 22, `sheet code: ${size} items`, { size: 7, anchor: "end", fill: "#999" }));
+  }
 
   // Title and name fields
   add(text(W / 2, 64, "ANSWER SHEET", { size: 40, bold: true, anchor: "middle" }));

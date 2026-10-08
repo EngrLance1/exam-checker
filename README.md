@@ -12,8 +12,8 @@ Open `index.html` (the landing page) in a browser, or go straight to `app/index.
 
 ## What it does
 
-- **Scans** photos of 30, 50 or 60-item answer sheets. It finds the four corner squares, flattens the photo, reads the class number, the test set (A to D) and every answer, and flags double marks, faint marks and erasures for you to check.
-- **Scores** against up to four answer keys (Sets A to D). Type a key, or scan a key sheet. A test can have any number of items from 1 to 60 (a 40-item test uses the 50-item sheet).
+- **Scans** photos of SagotScan answer sheets, for any test from 1 to 75 items. It finds the four corner squares, flattens the photo, reads the class number, the test set (A to D) and every answer, and flags double marks, faint marks and erasures for you to check.
+- **Scores** against up to four answer keys (Sets A to D). Type a key, or scan a key sheet. A test can have any number of items from 1 to 75. Print a sheet of exactly that length from `sheets/index.html`; an older 50-item sheet also works for a 40-item test (items after 40 are ignored).
 - **Class MPS** with the DepEd mastery levels, a configurable target (75% by default), per-section and per-set breakdowns, and a score distribution.
 - **Item analysis:** difficulty (p), discrimination (D, upper and lower 27%), option counts, Retain / Revise / Reject decisions, "check the key" and "few chose" notes, and KR-20 reliability with SEM.
 - **Fix a bad item** after scoring: also accept another letter, change the key, credit everyone, or drop the item. Everything recomputes.
@@ -23,7 +23,7 @@ Open `index.html` (the landing page) in a browser, or go straight to `app/index.
 
 ## Limits
 
-- Only the three printed sheet designs in `app/js/data/layouts.js` are supported (print them from `sheets/index.html`) (30, 50 and 60 items, four corner squares, items numbered down each column). The scanner works from stored bubble positions; it does not read the printed numbers, so a different sheet layout will not read correctly.
+- Only SagotScan's own sheet design is read: four black corner squares, a class number, a test set and A to D bubbles, items numbered down each column. Sheets of any length from 1 to 75 are printed from `sheets/index.html` (each carries a tiny code that tells the scanner its length), and the older 30, 50 and 60-item prints still work. A sheet of a different design will not read correctly.
 - Work is kept in the browser's `localStorage`. Photos are not stored: use **Save test file** to keep a copy of a test.
 - Tested on generated data and the built-in sample sheet. Check the first few real scans against the paper.
 
@@ -39,7 +39,8 @@ app/
   css/fonts.css, fonts/               self-hosted fonts, so no page requests anything from another site
   css/styles.css, print.css           app styles; the printed report
   js/omr.js                           the sheet reader (pure image code)
-  js/core/                            logic without any DOM: state, scoring, analysis, MPS, dashboard numbers, test file, class list, undo
+  js/reader.js                        works out which sheet a photo shows (its own code, or the built-in layouts) and reads it
+  js/core/                            logic without any DOM: state, scoring, analysis, MPS, dashboard numbers, test file, class list, undo, sheet layouts for any length
   js/scanner.js                       photo to sheet record
   js/ui/                              rendering, navigation, charts (hand-drawn SVG), events, printable report
   js/excel/                           one builder per Excel sheet

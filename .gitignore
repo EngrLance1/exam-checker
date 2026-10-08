@@ -16,3 +16,6 @@ Thumbs.db
 
 .vercel
 .env*
+
+# Real student sheets and photos used for testing: never commit or publish
+samples/

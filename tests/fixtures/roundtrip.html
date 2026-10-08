@@ -3,8 +3,11 @@
 <title>Sheet round-trip fixture</title>
 <!-- Loads the app's own reader and the sheet generator, then "photographs" generated sheets and reads them back.
      Used by tests/browser-sheets.js. Not part of the product. -->
+<script src="../../app/js/config.js"></script>
 <script src="../../app/js/omr.js"></script>
 <script src="../../app/js/data/layouts.js"></script>
+<script src="../../app/js/core/sheetlayout.js"></script>
+<script src="../../app/js/reader.js"></script>
 <script src="../../sheets/sheet-svg.js"></script>
 <script>
 // Deterministic random numbers.
@@ -45,13 +48,18 @@ function mapping(src, dst) {
 // Draws the sheet, then "photographs" it: perspective, rotation, background, light, noise, blur. Returns the same grayscale object the app uses.
 async function photo(size, fill, v = {}) {
   const W = v.w || 1400, H = v.h || 1750;
-  const svg = buildSheetSVG(size, LAYOUTS, { fill, ink: v.ink, width: 1200, height: Math.round(1200 * (1000 * LAYOUTS[size].r / LAYOUTS[size].ry + 2 * SHEET_PAD) / (1000 + 2 * SHEET_PAD)) });
+  const lay = layoutFor(size), frameH = 1000 * lay.r / lay.ry;
+  const svg = buildSheetSVG(size, { [size]: lay }, { fill, ink: v.ink, code: v.noCode ? false : undefined, width: 1200, height: Math.round(1200 * (frameH + 2 * SHEET_PAD) / (1000 + 2 * SHEET_PAD)) });
   const img = new Image();
   img.src = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
   await img.decode();
-  const sw = 1200, sh = Math.round(sw * (1000 * LAYOUTS[size].r / LAYOUTS[size].ry + 2 * SHEET_PAD) / (1000 + 2 * SHEET_PAD));
+  const sw = 1200, sh = Math.round(sw * (frameH + 2 * SHEET_PAD) / (1000 + 2 * SHEET_PAD));
   const sc = document.createElement("canvas"); sc.width = sw; sc.height = sh;
   const sctx = sc.getContext("2d"); sctx.fillStyle = "#fff"; sctx.fillRect(0, 0, sw, sh); sctx.drawImage(img, 0, 0, sw, sh);
+  if (v.blotCode) { // a smudge over the sheet code (frame units x 750..950, y 36..66)
+    const px = (x) => ((x + SHEET_PAD) / (1000 + 2 * SHEET_PAD)) * sw, py = (y) => ((y + SHEET_PAD) / (frameH + 2 * SHEET_PAD)) * sh;
+    sctx.fillStyle = "#444"; sctx.fillRect(px(750), py(34), px(950) - px(750), py(68) - py(34));
+  }
   const src = sctx.getImageData(0, 0, sw, sh);
 
   // Where the sheet's corners land in the photo (fractions of the photo), then rotated by v.rot quarter-turns.
@@ -83,10 +91,11 @@ async function photo(size, fill, v = {}) {
 }
 
 // Reads a photo and compares with what was drawn. Returns a summary the test can assert on.
-async function roundTrip(size, seed, variant) {
+// testCount: the item count the app is set to when it reads (normally the sheet's own).
+async function roundTrip(size, seed, variant, testCount = size) {
   const { fill, expect, classNo, set } = makeFill(size, seed);
   const gray = await photo(size, fill, variant);
-  const res = OMR.read(gray, LAYOUTS);
+  const res = readSheet(gray, testCount);
   if (!res.ok) return { ok: false, error: res.error };
   const bad = [];
   expect.forEach((e, i) => {
@@ -96,7 +105,21 @@ async function roundTrip(size, seed, variant) {
     else if (e.flag === "blank") { if (it.choice !== null || it.flag !== "blank") bad.push(`item ${i + 1}: wanted blank, got ${it.choice == null ? "none" : "ABCD"[it.choice]} (${it.flag})`); }
     else if (e.flag === "multiple") { if (it.flag !== "multiple") bad.push(`item ${i + 1}: wanted double mark, got ${it.choice == null ? "none" : "ABCD"[it.choice]} (${it.flag || "no flag"})`); }
   });
-  return { ok: true, size: res.size, wantedSize: size, classNo: res.classNo, wantedClassNo: classNo, set: res.set, wantedSet: set, bad, conf: res.conf };
+  return { ok: true, size: res.size, wantedSize: size, items: res.items.length, classNo: res.classNo, wantedClassNo: classNo, set: res.set, wantedSet: set, bad, conf: res.conf };
 }
 window.roundTrip = roundTrip;
+
+// Reads a real photo (a data URL) exactly as the app does: scaled to at most 1600 px on the long side, then readSheet().
+async function readPhoto(dataUrl, testCount) {
+  const img = new Image(); img.src = dataUrl; await img.decode();
+  const MAX = 1600, k = Math.min(1, MAX / Math.max(img.naturalWidth, img.naturalHeight));
+  const w = Math.round(img.naturalWidth * k), h = Math.round(img.naturalHeight * k);
+  const c = document.createElement("canvas"); c.width = w; c.height = h;
+  const ctx = c.getContext("2d", { willReadFrequently: true }); ctx.drawImage(img, 0, 0, w, h);
+  const r = readSheet(OMR.toGray(ctx.getImageData(0, 0, w, h).data, w, h), testCount);
+  if (!r.ok) return { ok: false, error: r.error };
+  return { ok: true, size: r.size, classNo: r.classNo, set: r.set, conf: Math.round(r.conf), flags: r.items.map((i, n) => (i.flag && i.flag !== "blank" ? n + 1 + ":" + i.flag : null)).filter(Boolean),
+    answers: r.items.map((i) => (i.flag === "multiple" ? "*" : i.choice == null ? "-" : "ABCD"[i.choice])).join("") };
+}
+window.readPhoto = readPhoto;
 </script>

@@ -48,3 +48,12 @@ h1, h2 { margin: 0; }
   .print-area { display: flex; justify-content: center; align-items: flex-start; padding-top: 12mm; }
   .print-area svg { display: block; width: 187mm; height: auto; }
 }
+
+/* number-of-items box */
+.size-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 4px; }
+.size-row .lbl { margin: 0; }
+.size-row input { width: 92px; padding: 8px 12px; border: 1px solid var(--line-strong); border-radius: var(--radius-field); background: rgba(255, 255, 255, 0.72); font: inherit; font-size: 1rem; color: var(--navy); }
+.size-row input:focus { outline: 2px solid var(--primary-strong); outline-offset: 1px; border-color: transparent; }
+.size-row input[aria-invalid="true"] { border-color: var(--bad); }
+.hint.bad { color: var(--bad); font-weight: 600; }
+.seg { flex-wrap: wrap; border-radius: 22px; }

@@ -30,7 +30,7 @@ const fileUrl = (rel) => pathToFileURL(path.join(ROOT, rel)).href;
     await ev(`(async () => { for (let y = 0; y < document.body.scrollHeight; y += 400) { window.scrollTo({ top: y, behavior: "instant" }); await new Promise((r) => setTimeout(r, 120)); } window.scrollTo({ top: 0, behavior: "instant" }); })()`);
     await sleep(800);
     check("every image loads and has size", await ev(`[...document.images].every((i) => i.complete && i.naturalWidth > 100)`), JSON.stringify(await ev(`[...document.images].map((i) => [i.src.split("/").pop(), i.naturalWidth])`)));
-    check("the sheet figure shows the corner squares and the four numbered callouts", await ev(`document.querySelectorAll(".pin-wrap .pin").length === 7 && document.querySelectorAll(".pins-list li").length === 4`));
+    check("the sheet figure shows the corner squares and the numbered callouts", await ev(`document.querySelectorAll(".pin-wrap .pin").length === 8 && document.querySelectorAll(".pins-list li").length === 5`));
 
     // weight: everything the page asked for, by file size
     const sizes = requests.filter((u) => u.startsWith("file:")).map((u) => { try { return fs.statSync(fileURLToPath(u)).size; } catch (e) { return 0; } });
@@ -101,13 +101,26 @@ const fileUrl = (rel) => pathToFileURL(path.join(ROOT, rel)).href;
     check("choosing 30 items shows the 30-item sheet", (await circles()) === 30 * 4 + 24 && (await ev(`location.hash`)) === "#30" && (await ev(`document.querySelector("#sheetBox").textContent`)).includes("30 Items"));
     await ev(`document.querySelector('#sizeSeg [data-size="60"]').click()`);
     check("choosing 60 items shows the 60-item sheet", (await circles()) === 60 * 4 + 24 && (await ev(`document.querySelector("#sheetBox").textContent`)).includes("SCORE: ________ / 60"));
+    // any length can be typed
+    const typeLen = (v) => ev(`(() => { const i = document.querySelector("#sizeInput"); i.focus(); i.value = ${JSON.stringify(v)}; i.dispatchEvent(new Event("input", { bubbles: true })); })()`);
+    await typeLen("40");
+    check("typing 40 draws the 40-item sheet: 4 columns, its own code, and the preset buttons un-press", (await circles()) === 40 * 4 + 24 && (await ev(`document.querySelectorAll("#sheetBox svg rect.code").length`)) === 11 && (await ev(`document.querySelector("#sheetBox").textContent`)).includes("sheet code: 40 items") && (await ev(`document.querySelector('#sizeSeg [data-size="40"]').getAttribute("aria-pressed")`)) === "true" && (await ev(`location.hash`)) === "#40");
+    await typeLen("17");
+    check("typing 17 (no preset) draws a 17-item sheet and un-presses every preset", (await circles()) === 17 * 4 + 24 && (await ev(`document.querySelectorAll('#sizeSeg [aria-pressed="true"]').length`)) === 0);
+    await typeLen("76");
+    check("76 is refused with a message, and the sheet stays as it was", (await ev(`document.querySelector("#sizeHelp").textContent`)).includes("1 to 75") && (await ev(`document.querySelector("#sizeInput").getAttribute("aria-invalid")`)) === "true" && (await circles()) === 17 * 4 + 24);
+    await typeLen("2.5");
+    check("a decimal is refused", (await ev(`document.querySelector("#sizeInput").getAttribute("aria-invalid")`)) === "true");
+    await ev(`document.querySelector("#sizeInput").blur()`);
+    check("leaving the box with bad text puts the real length back", (await ev(`document.querySelector("#sizeInput").value`)) === "17");
+    await ev(`document.querySelector('#sizeSeg [data-size="60"]').click()`);
     check("the page explains how to print", (await ev(`document.body.innerText`)).includes("Print at 100% (actual size)"));
     check("no sideways scrolling on the sheets page at 400px", await (async () => { await viewport(400, 800, true); const ok = await noSideScroll(); await viewport(1440, 900, false); return ok; })());
     await ev(`window.__printed = 0; window.print = () => { window.__printed++; }; document.querySelector("#printBtn").click()`);
     check("Print this sheet opens the print dialog", (await ev(`window.__printed`)) === 1);
 
-    for (const size of [30, 50, 60]) {
-      await ev(`document.querySelector('#sizeSeg [data-size="${size}"]').click()`);
+    for (const size of [5, 17, 30, 40, 50, 60, 75]) {
+      await ev(`(() => { const i = document.querySelector("#sizeInput"); i.value = ${size}; i.dispatchEvent(new Event("input", { bubbles: true })); })()`);
       await send("Emulation.setEmulatedMedia", { media: "print" });
       await sleep(200);
       const geo = await ev(`(() => { const s = document.querySelector("#printArea svg").getBoundingClientRect(); return { visible: getComputedStyle(document.querySelector(".page")).display === "none", mm: s.width / 96 * 25.4, tall: s.height / 96 * 25.4 }; })()`);

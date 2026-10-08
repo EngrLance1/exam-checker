@@ -13,7 +13,7 @@ const OUT = path.join(ROOT, "assets");
 fs.mkdirSync(OUT, { recursive: true });
 
 const ctx = vm.createContext({});
-for (const f of ["app/js/data/layouts.js", "app/js/data/sample.js", "sheets/sheet-svg.js"]) vm.runInContext(fs.readFileSync(path.join(ROOT, f), "utf8"), ctx, { filename: f });
+for (const f of ["app/js/config.js", "app/js/data/layouts.js", "app/js/core/sheetlayout.js", "app/js/data/sample.js", "sheets/sheet-svg.js"]) vm.runInContext(fs.readFileSync(path.join(ROOT, f), "utf8"), ctx, { filename: f });
 const run = (code) => vm.runInContext(code, ctx);
 
 // Sample answers: the in-app sample key, with some deliberate wrong answers, a blank and a double mark.

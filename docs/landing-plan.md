@@ -7,7 +7,7 @@ Written after four agents (researcher, UI/UX designer, product manager, frontend
 | Part | Where | Notes |
 |---|---|---|
 | Landing page | `index.html`, `landing.css`, `landing.js` | Headline: "Check answer sheets from your phone. Get your MPS in minutes." with one Filipino line about free, no account, photos stay on the device |
-| Printable sheets | `sheets/` | 30, 50 and 60-item sheets drawn from `app/js/data/layouts.js`, printed 187 mm wide, one page on A4 and Letter |
+| Printable sheets | `sheets/` | Sheets for any length from 1 to 75 items, drawn from the scanner's own layouts (`app/js/data/layouts.js` for 30, 50, 60; `app/js/core/sheetlayout.js` for the rest), printed 187 mm wide, one page on A4 and Letter. Each carries a small code that tells the scanner its length |
 | App moved | `app/` | The landing page owns the site root |
 | Shared tokens and fonts | `app/css/tokens.css`, `app/css/fonts.css`, `app/fonts/` | Fonts are self-hosted: no page requests anything from another site |
 
@@ -32,3 +32,12 @@ Testing found two flaws in the first sheet design, both fixed: the corner square
 - **Offline.** The app has no service worker, so reloading with no connection fails once hosted. A small one would make "works offline" fully true. Not built; the page claims only what is true today.
 - **Filipino line.** Worth a read by a native speaker.
 - **Accuracy claims.** The page says it was tested on generated sheets and one sample, not many real photos. Replace with real numbers once a real-photo test exists.
+
+## Sheets for any number of items (added after the first release)
+
+The user asked for sheets for other item counts in the same design as their real 30-item sheet (`samples/sample.jpg`, which the existing scanner already read perfectly: 30 items, class 03, set C, every answer right).
+
+- **One rule, not new data.** `sheetlayout.js` generates the layout for any length from the same grid as the built-in sheets (10 rows per column to 50 items, 12 to 60, 15 to 75). It reproduces the stored 30, 50 and 60-item layouts to within 0.1% of the frame, so those are untouched.
+- **Why a sheet code.** Reading a photo with the wrong layout can return confident garbage. Testing showed a 40-item sheet scanned while the test was set to 50 read 28 answers wrong, and nothing flagged it (the app saw "50-item sheet, 50-item test"). So each sheet now carries a tiny printed code of its own length (11 squares: 3 sync, 7 bits, 1 parity). The reader decodes it at all four rotations, tries the layout it names, and accepts it only if that layout really matches the photo. Older sheets have no code and take the previous path.
+- **Residual risk.** If a sheet's code is smudged AND the test's length is also wrong, the old path can still return garbage with no warning. Both would have to go wrong at once.
+- **Limit.** 75 items is the most that fits one page at this bubble size. 100 items would need smaller bubbles or two pages.

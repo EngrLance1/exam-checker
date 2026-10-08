@@ -47,6 +47,9 @@ const ORIGIN = new URL(SITE).origin;
     await ev(`document.querySelector('#sizeSeg [data-size="60"]').click()`);
     check("sheets: choosing 60 items draws the 60-item sheet", (await ev(`document.querySelectorAll("#sheetBox svg circle[stroke-width='1.5']").length`)) === 60 * 4 + 24);
 
+    await ev(`(() => { const i = document.querySelector("#sizeInput"); i.value = "40"; i.dispatchEvent(new Event("input", { bubbles: true })); })()`);
+    check("sheets: typing 40 draws a 40-item sheet with its length code", (await ev(`document.querySelectorAll("#sheetBox svg circle[stroke-width='1.5']").length`)) === 40 * 4 + 24 && (await ev(`document.querySelectorAll("#sheetBox svg rect.code").length`)) === 11);
+
     // ---- across all three pages ----
     check("no request went to any other site (no CDN, no Google, no analytics)", foreign().length === 0, JSON.stringify(foreign()));
     check("no failed or blocked requests", errors.filter((e) => /Failed to load|ERR_|404|403|blocked/i.test(e)).length === 0, errors.join(" | ").slice(0, 300));

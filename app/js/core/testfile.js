@@ -14,7 +14,7 @@ function buildTestFile() {
 const isStr = (v) => typeof v === "string";
 function cleanSheet(s) {
   if (!s || typeof s !== "object" || !isStr(s.id) || !s.id) return null;
-  if (!SIZES.includes(s.size)) return null;
+  if (!isTestSize(s.size)) return null;
   if (!Array.isArray(s.answers) || s.answers.length !== s.size) return null;
   if (!s.answers.every((a) => isStr(a) && (a === "" || a === "*" || (a.length === 1 && LET.includes(a))))) return null;
   const flags = Array.isArray(s.flags) && s.flags.length === s.size ? s.flags.map((f) => (isStr(f) ? f : null)) : s.answers.map(() => null);

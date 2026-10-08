@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Printable answer sheets · SagotScan</title>
-<meta name="description" content="Print-ready 30, 50 and 60-item answer sheets for SagotScan. Free to print, same sheet for every test.">
+<meta name="description" content="Print-ready SagotScan answer sheets for any test from 1 to 75 items. Free to print, same sheet for every test of that length.">
 <link rel="stylesheet" href="../app/css/fonts.css">
 <link rel="stylesheet" href="../app/css/tokens.css">
 <link rel="stylesheet" href="sheets.css">
@@ -16,18 +16,26 @@
   <header class="head">
     <a class="back" href="../app/index.html">&larr; Open SagotScan</a>
     <h1>Printable answer sheets</h1>
-    <p class="lede">The same blank sheet works for every test. Students shade their answers; you type the answer key into the app. Choose the number of items, then print.</p>
+    <p class="lede">The same blank sheet works for every test with the same number of items. Students shade their answers; you type the answer key into the app. Choose the number of items, then print.</p>
   </header>
 
   <section class="controls glass" aria-label="Choose a sheet">
     <div class="field">
       <span class="lbl" id="sizeLbl">Number of items</span>
       <div class="seg" role="group" aria-labelledby="sizeLbl" id="sizeSeg">
-        <button type="button" data-size="30" aria-pressed="false">30 items</button>
-        <button type="button" data-size="50" aria-pressed="true">50 items</button>
-        <button type="button" data-size="60" aria-pressed="false">60 items</button>
+        <button type="button" data-size="20" aria-pressed="false">20</button>
+        <button type="button" data-size="25" aria-pressed="false">25</button>
+        <button type="button" data-size="30" aria-pressed="false">30</button>
+        <button type="button" data-size="40" aria-pressed="false">40</button>
+        <button type="button" data-size="50" aria-pressed="true">50</button>
+        <button type="button" data-size="60" aria-pressed="false">60</button>
+        <button type="button" data-size="75" aria-pressed="false">75</button>
       </div>
-      <p class="hint" id="sizeHelp">Giving a test with fewer items, say 40? Use the 50-item sheet and set the test to 40 items in SagotScan. Items after 40 are ignored.</p>
+      <div class="size-row">
+        <label class="lbl" for="sizeInput">Or type any number from 1 to 75</label>
+        <input type="number" id="sizeInput" min="1" max="75" step="1" inputmode="numeric" autocomplete="off" aria-describedby="sizeHelp">
+      </div>
+      <p class="hint" id="sizeHelp" role="status">Same design for every length. Items are numbered down each column: 10 per column up to 50 items, 12 up to 60, 15 up to 75.</p>
     </div>
     <button type="button" class="btn primary pill" id="printBtn">Print this sheet</button>
   </section>
@@ -51,7 +59,9 @@
 <!-- Printed output: only this is visible when printing -->
 <div class="print-area" id="printArea" aria-hidden="true"></div>
 
+<script src="../app/js/config.js"></script>
 <script src="../app/js/data/layouts.js"></script>
+<script src="../app/js/core/sheetlayout.js"></script>
 <script src="sheet-svg.js"></script>
 <script src="sheets.js"></script>
 </body>

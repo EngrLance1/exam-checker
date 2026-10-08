@@ -24,10 +24,10 @@ test("sheetSizeFor picks the smallest printed sheet that fits", () => {
   assert.equal(f(61), null);
 });
 
-test("isTestSize accepts whole numbers 1 to 60 only", () => {
+test("isTestSize accepts whole numbers 1 to 75 only", () => {
   const c = load();
-  for (const n of [1, 40, 60]) assert.equal(c.run(`isTestSize(${n})`), true, String(n));
-  for (const n of [0, -5, 61, 2.5, "40", null, NaN]) assert.equal(c.run(`isTestSize(${JSON.stringify(n)})`), false, String(n));
+  for (const n of [1, 40, 60, 61, 75]) assert.equal(c.run(`isTestSize(${n})`), true, String(n));
+  for (const n of [0, -5, 76, 2.5, "40", null, NaN]) assert.equal(c.run(`isTestSize(${JSON.stringify(n)})`), false, String(n));
 });
 
 test("a 40-item test on a 50-item sheet scores 40 items and ignores the rest", () => {
@@ -50,6 +50,25 @@ test("a key shorter than the sheet but equal to the test is fully scored", () =>
   assert.equal(c.run("scoreOf(state.sheets[0])").total, 40);
 });
 
+test("a sheet made for exactly this many items is also the right sheet", () => {
+  const own = sheet("s01", KEY40), std = sheet("s02", KEY50), wrong = sheet("s03", "A".repeat(30));
+  const c = setup(40, KEY40, [own, std, wrong]);
+  const bad = (i) => c.run(`issuesOf(state.sheets[${i}])`).some((x) => /item sheet/.test(x.t));
+  assert.equal(bad(0), false); // the 40-item sheet
+  assert.equal(bad(1), false); // the standard 50-item sheet that fits a 40-item test
+  assert.equal(bad(2), true);  // a 30-item sheet is too short
+  assert.equal(c.run("rightSize(state.sheets[0])"), true);
+  assert.equal(c.run("rightSize(state.sheets[2])"), false);
+});
+
+test("above 60 items only a sheet of exactly that length fits", () => {
+  const KEY70 = "ABCD".repeat(17) + "AB";
+  const c = setup(70, KEY70, [sheet("s01", KEY70), sheet("s02", KEY70.slice(0, 60))]);
+  assert.equal(c.run("sheetSizeFor(70)"), null);
+  assert.equal(c.run("rightSize(state.sheets[0])"), true);
+  assert.equal(c.run("rightSize(state.sheets[1])"), false);
+});
+
 test("sheet size problems: right sheet is fine, wrong sheet is reported", () => {
   const ok = sheet("s01", KEY50), tooSmall = sheet("s02", "A".repeat(30)), tooBig = sheet("s03", "A".repeat(60));
   const c = setup(40, KEY40, [ok, tooSmall, tooBig]);
@@ -58,7 +77,7 @@ test("sheet size problems: right sheet is fine, wrong sheet is reported", () => 
   assert.equal(sizeIssue(1), true);
   assert.equal(sizeIssue(2), true);
   const msg = c.run("issuesOf(state.sheets[1]).find(x => /item sheet/.test(x.t)).t");
-  assert.match(msg, /40-item test uses the 50-item sheet/);
+  assert.match(msg, /40-item test uses the 40-item sheet or the 50-item sheet/);
 });
 
 test("standard sizes behave as before: a 60 sheet for a 50 test is flagged", () => {

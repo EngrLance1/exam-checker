@@ -91,8 +91,12 @@ async function main() {
   const total40 = await ev(`document.querySelector("#tbody tr td.num:nth-of-type(4)").textContent.replace(/\s+/g, "")`);
   check("the sample 50-item sheet is scored out of at most 40 and not flagged", tot(total40) <= 40 && !(await ev(`document.querySelector("#tbody").textContent`)).includes("item sheet"), total40);
   check("review shows 40 items, not 50", (await ev(`document.querySelectorAll("#items .it").length`)) === 40);
-  await typeSize("61");
-  check("61 is refused with a message and the size stays 40", (await ev(`state.test.size`)) === 40 && (await ev(`document.querySelector("#sizeHint").textContent`)).includes("1 to 60") && (await ev(`document.querySelector("#sizeCustom").getAttribute("aria-invalid")`)) === "true");
+  await typeSize("76");
+  check("76 is refused with a message and the size stays 40", (await ev(`state.test.size`)) === 40 && (await ev(`document.querySelector("#sizeHint").textContent`)).includes("1 to 75") && (await ev(`document.querySelector("#sizeCustom").getAttribute("aria-invalid")`)) === "true");
+  await typeSize("70");
+  check("70 items is accepted now (tests go up to 75) and the hint links to the matching sheet", (await ev(`state.test.size`)) === 70 && (await ev(`document.querySelector("#sizeHint a").getAttribute("href")`)) === "../sheets/index.html#70" && !(await ev(`document.querySelector("#sizeHint").textContent`)).includes("or use the"), await ev(`document.querySelector("#sizeHint").textContent`));
+  await typeSize("40");
+  check("a 40-item hint offers the 40-item sheet or the 50-item one", (await ev(`document.querySelector("#sizeHint").textContent`)).includes("Print the 40-item sheet") && (await ev(`document.querySelector("#sizeHint").textContent`)).includes("or use the 50-item sheet"));
   await typeSize("");
   check("an empty box is refused and the size stays 40", (await ev(`state.test.size`)) === 40);
   await typeSize("4.5");

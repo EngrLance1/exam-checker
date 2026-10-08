@@ -47,7 +47,7 @@
         <a class="btn primary big" href="app/index.html" id="heroCta">Open SagotScan</a>
         <a class="btn big" href="sheets/index.html">Print the answer sheet</a>
       </div>
-      <p class="fine">It opens with a built-in sample sheet so you can try it first. To check your own class you need the SagotScan answer sheet (30, 50 or 60 items).</p>
+      <p class="fine">It opens with a built-in sample sheet so you can try it first. To check your own class you need the SagotScan answer sheet, which you can print for any test from 1 to 75 items.</p>
     </div>
 
     <div class="hero-visual">
@@ -73,8 +73,8 @@
     <div class="how-text">
       <h2 id="how-h">From a stack of papers to your results</h2>
       <ol class="steps">
-        <li><span class="num" aria-hidden="true">1</span><div><h3>Print the SagotScan answer sheet</h3><p>One blank sheet works for every test, in 30, 50 or 60 items. <a href="sheets/index.html">Print it here.</a></p></div></li>
-        <li><span class="num" aria-hidden="true">2</span><div><h3>Enter your answer key</h3><p>Type the letters for Sets A to D, or scan a key sheet. Giving a 40-item test? Use the 50-item sheet and set the test to 40.</p></div></li>
+        <li><span class="num" aria-hidden="true">1</span><div><h3>Print the SagotScan answer sheet</h3><p>One blank sheet works for every test of the same length, from 1 to 75 items. <a href="sheets/index.html">Print it here.</a></p></div></li>
+        <li><span class="num" aria-hidden="true">2</span><div><h3>Enter your answer key</h3><p>Type the letters for Sets A to D, or scan a key sheet. Giving a 40-item test? Print the 40-item sheet and set the test to 40.</p></div></li>
         <li><span class="num" aria-hidden="true">3</span><div><h3>Photograph the filled sheets</h3><p>Take a photo or upload one. SagotScan reads the class number, the set and every answer, and flags double marks, faint marks and erasures for you to check.</p></div></li>
         <li><span class="num" aria-hidden="true">4</span><div><h3>Read the results</h3><p>Class MPS with the DepEd mastery levels, item analysis, an Excel file and a printable report.</p></div></li>
       </ol>
@@ -155,7 +155,8 @@
         <li><b>Four black corner squares.</b> They tell SagotScan where the sheet is, so a tilted or sideways photo still works. All four must be in the picture.</li>
         <li><b>Class number and test set.</b> Students write the number in the boxes and shade the matching circles. The set is A to D.</li>
         <li><b>Shade the circle completely.</b> One circle per item, with a pencil or dark pen. A check, a cross or half a circle does not count.</li>
-        <li><b>Items numbered down each column.</b> 10 per column on the 30 and 50-item sheets, 12 on the 60-item sheet.</li>
+        <li><b>Items numbered down each column.</b> 10 per column up to 50 items, 12 up to 60, 15 up to 75.</li>
+        <li><b>A tiny code at the top right.</b> It tells SagotScan how many items the sheet has, so it always reads the right layout, even if the test was set up with a different length.</li>
       </ol>
       <div class="cta-row">
         <a class="btn primary" href="sheets/index.html">Print the answer sheet</a>
@@ -164,7 +165,7 @@
     </div>
     <figure class="sheet-fig">
       <div class="pin-wrap">
-        <img src="assets/sheet-blank-50.svg" width="1100" height="1438" alt="A blank SagotScan 50-item answer sheet, with the four corner squares, class number, test set, directions and numbered answer columns marked 1 to 4." loading="lazy">
+        <img src="assets/sheet-blank-50.svg" width="1100" height="1438" alt="A blank SagotScan 50-item answer sheet, with the four corner squares, class number, test set, directions, numbered answer columns and the small sheet code at the top right, marked 1 to 5." loading="lazy">
         <span class="pin" style="left:4.5%;top:3.5%" aria-hidden="true">1</span>
         <span class="pin" style="left:95.5%;top:3.5%" aria-hidden="true">1</span>
         <span class="pin" style="left:4.5%;top:96.5%" aria-hidden="true">1</span>
@@ -172,8 +173,9 @@
         <span class="pin" style="left:20%;top:33%" aria-hidden="true">2</span>
         <span class="pin" style="left:39%;top:40.5%" aria-hidden="true">3</span>
         <span class="pin" style="left:50%;top:72%" aria-hidden="true">4</span>
+        <span class="pin" style="left:81.6%;top:2.6%" aria-hidden="true">5</span>
       </div>
-      <figcaption>The 50-item sheet. The 30 and 60-item sheets use the same frame.</figcaption>
+      <figcaption>The 50-item sheet. Every length uses the same design and frame.</figcaption>
     </figure>
   </section>
 
@@ -182,7 +184,7 @@
     <div class="limits">
       <h2 id="limits-h">What to know before you start</h2>
       <ul>
-        <li><b>Only the SagotScan sheets are supported.</b> It reads the 30, 50 and 60-item designs above. A different sheet layout will not read correctly.</li>
+        <li><b>Only the SagotScan sheets are supported.</b> It reads the sheets printed from this site, in any length from 1 to 75 items, and the older 30, 50 and 60-item prints. A different sheet layout will not read correctly.</li>
         <li><b>Your work is kept in this browser.</b> Photos are not stored. Use <b>Save test file</b> to keep a copy, because clearing your browser data erases the rest.</li>
         <li><b>It is new.</b> It has been tested on generated sheets under tilted, dim and blurry conditions, and on a sample sheet, but not yet on many real classroom photos. Check the first few scans against the paper.</li>
         <li><b>Flagged items need your eyes.</b> Double marks, faint marks and possible erasures are highlighted so you can decide.</li>
@@ -197,8 +199,8 @@
     <details><summary>Where do my students&rsquo; photos go?</summary><p>Nowhere. SagotScan reads each photo in your browser. It has no server and loads nothing from other sites, so nothing is uploaded.</p></details>
     <details><summary>Does it work without internet?</summary><p>SagotScan has no server, so scoring and item analysis run in your browser. Once the page is open, losing your connection will not stop it. If you reload with no connection, the page itself will not load.</p></details>
     <details><summary>Do I need an account or to install anything?</summary><p>No. Open the page in Chrome, Edge, Firefox or Safari on a phone or a computer.</p></details>
-    <details><summary>Can I use my own answer sheet?</summary><p>Not yet. SagotScan reads the 30, 50 and 60-item sheets on this page. Print them from the answer sheet page.</p></details>
-    <details><summary>My test has 40 items.</summary><p>Use the 50-item sheet and set the test to 40 items. Items after 40 are ignored.</p></details>
+    <details><summary>Can I use my own answer sheet?</summary><p>Not yet. SagotScan reads its own sheets, which you print from the answer sheet page for any test from 1 to 75 items.</p></details>
+    <details><summary>My test has 40 items.</summary><p>Print the 40-item sheet from the answer sheet page: SagotScan makes a sheet for any length from 1 to 75. You can also use the 50-item sheet and set the test to 40 items; items after 40 are ignored.</p></details>
     <details><summary>I teach several classes.</summary><p>Give each class a section name. You get the MPS per section and for all of them together, and the item analysis can be shown for one section at a time.</p></details>
     <details><summary>Can I get the results into Excel?</summary><p>Yes. You get an Excel file with scores, MPS, every answer, the item analysis and notes on anything flagged. There is also a printable report.</p></details>
     <details><summary>What if the key was wrong?</summary><p>Fix it after scoring: accept another letter, change the key, credit everyone, or drop the item. Everything recomputes.</p></details>

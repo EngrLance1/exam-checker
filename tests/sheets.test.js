@@ -7,18 +7,19 @@ const vm = require("node:vm");
 
 const ROOT = path.join(__dirname, "..");
 const ctx = vm.createContext({});
-for (const f of ["app/js/data/layouts.js", "sheets/sheet-svg.js"]) vm.runInContext(fs.readFileSync(path.join(ROOT, f), "utf8"), ctx, { filename: f });
+for (const f of ["app/js/config.js", "app/js/data/layouts.js", "app/js/core/sheetlayout.js", "sheets/sheet-svg.js"]) vm.runInContext(fs.readFileSync(path.join(ROOT, f), "utf8"), ctx, { filename: f });
 const run = (code) => vm.runInContext(code, ctx);
 const LAYOUTS = run("LAYOUTS");
-const svgOf = (size, opts) => { ctx.__o = opts || {}; return run(`buildSheetSVG(${size}, LAYOUTS, __o)`); };
+const svgOf = (size, opts) => { ctx.__o = opts || {}; return run(`buildSheetSVG(${size}, { ${size}: layoutFor(${size}) }, __o)`); };
 
 // bubbles are the circles drawn with a 1.5 stroke (the "correct / wrong" examples use different styling)
 const bubbles = (svg) => [...svg.matchAll(/<circle cx="(-?[\d.]+)" cy="(-?[\d.]+)" r="([\d.]+)" fill="(#[0-9a-f]+)" stroke="#222" stroke-width="1\.5"\/>/g)]
   .map((m) => ({ x: +m[1], y: +m[2], r: +m[3], fill: m[4] }));
 
-for (const size of [30, 50, 60]) {
-  const lay = LAYOUTS[String(size)];
-  const { W, H, R } = run(`sheetGeometry(LAYOUTS["${size}"])`);
+// the three built-in sheets, and a spread of other lengths made by the layout rule
+for (const size of [1, 5, 10, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75]) {
+  const lay = run(`layoutFor(${size})`);
+  const { W, H, R } = run(`sheetGeometry(layoutFor(${size}))`);
 
   test(`${size}-item sheet: the frame is as tall as the scanner expects`, () => {
     assert.equal(W, 1000);
@@ -51,7 +52,7 @@ for (const size of [30, 50, 60]) {
     assert.equal(dark.length, 0);
   });
 
-  test(`${size}-item sheet: a filled sample shades exactly the requested bubbles`, () => {
+  test(`${size}-item sheet: a filled sample shades exactly the requested bubbles`, { skip: size < 10 }, () => {
     const answers = Array.from({ length: size }, (_, i) => (i % 5 === 0 ? "" : i % 7 === 0 ? "AC" : "ABCD"[i % 4]));
     const want = answers.reduce((n, a) => n + a.length, 0) + 2 /* class digits */ + 1 /* set */;
     const svg = svgOf(size, { fill: { answers, classNo: "07", set: "C" } });
@@ -114,10 +115,10 @@ test("the sheet fits the page: 187 mm wide prints well inside A4 and Letter", ()
 });
 
 test("an unsupported size is refused clearly", () => {
-  assert.throws(() => run("buildSheetSVG(40, LAYOUTS)"), /No layout for a 40-item sheet/);
+  assert.throws(() => run("buildSheetSVG(40, LAYOUTS)"), /No layout for a 40-item sheet/); // LAYOUTS only holds the built-in 30, 50 and 60
 });
 
-test("all three sizes share the same frame, so one corner-square position fits every sheet", () => {
-  const g = ["30", "50", "60"].map((k) => run(`sheetGeometry(LAYOUTS["${k}"])`));
+test("every size shares the same frame, so one corner-square position fits every sheet", () => {
+  const g = [20, 30, 40, 50, 60, 75].map((k) => run(`sheetGeometry(layoutFor(${k}))`));
   assert.ok(g.every((x) => Math.abs(x.H - g[0].H) < 1e-9));
 });
