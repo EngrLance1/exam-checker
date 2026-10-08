@@ -4,6 +4,8 @@ An answer sheet checker for classroom teachers. Take a photo of a filled multipl
 
 Scope: **exam score checking and item analysis only.** It is not a gradebook or class record.
 
+**Live:** https://sagotscan.vercel.app
+
 ## Run it
 
 Open `index.html` (the landing page) in a browser, or go straight to `app/index.html`. That's all: no install, and it works from a folder on your computer. On a phone, "Take photo" opens the camera. To check your own class you need the printed sheet: open `sheets/index.html` to print the 30, 50 or 60-item sheet.
@@ -51,7 +53,7 @@ Scripts are plain `<script>` tags that share one global scope, so the load order
 
 ## Deploying
 
-It is all static files, so any static host works. On Vercel: import the repository, set the framework preset to "Other", and leave the build command and output directory empty. No `vercel.json` is needed. Do not turn on `cleanUrls`: the app uses relative paths. Once you have a domain, add the `og:url` and `og:image` tags to `index.html` (an image can be made from the landing page).
+It is all static files, so any static host works. It is deployed on Vercel at https://sagotscan.vercel.app (project `sagotscan`, no framework, no build command, repository root as the output). No `vercel.json` is needed. `.vercelignore` keeps tests, scripts, docs and notes off the public site. To deploy: `vercel deploy --prod`. After every deploy run `node tests/browser-live.js https://sagotscan.vercel.app`, which loads the landing page, the app and the sheets page over the network and checks that they work and request nothing from other sites. Do not turn on `cleanUrls`: the app uses relative paths. Once you have a domain, add the `og:url` and `og:image` tags to `index.html` (an image can be made from the landing page).
 
 ## Tests
 
@@ -63,6 +65,7 @@ node tests/browser-smoke.js     # export, item fixes, save/open, custom item cou
 node tests/browser-features.js  # sections, duplicates, undo, class list, target, print report, Excel
 node tests/browser-shell.js     # the glass look, pages, dashboard, search, menus, responsive, focus rings, no outside requests
 node tests/browser-landing.js   # landing page, sheets page, a sheet prints on one A4 and one Letter page
+node tests/browser-live.js URL   # smoke test of a deployed site (landing, app, sheets; no outside requests)
 node tests/browser-sheets.js    # renders each printable sheet, photographs it 11 ways, reads it with the real scanner (about 3 minutes)
 ```
 

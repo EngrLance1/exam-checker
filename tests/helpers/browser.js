@@ -19,7 +19,7 @@ async function launch({ width = 1300, height = 2200, page: pagePath = "app/index
   if (!chrome) { console.error("No Chrome or Edge found."); process.exit(2); }
   const port = 9333 + Math.floor(Math.random() * 600);
   const profile = fs.mkdtempSync(path.join(os.tmpdir(), "sagot-"));
-  const url = pathToFileURL(path.join(__dirname, "..", "..", pagePath)).href;
+  const url = /^https?:/.test(pagePath) ? pagePath : pathToFileURL(path.join(__dirname, "..", "..", pagePath)).href; // a repo file, or a live URL
   const proc = spawn(chrome, ["--headless=new", "--disable-gpu", `--remote-debugging-port=${port}`, `--user-data-dir=${profile}`, `--window-size=${width},${height}`, "about:blank"], { stdio: "ignore" });
 
   let targets;
@@ -46,7 +46,7 @@ async function launch({ width = 1300, height = 2200, page: pagePath = "app/index
   await send("Page.enable");
   await send("Emulation.setFocusEmulationEnabled", { enabled: true }); // so focus and blur events fire in headless
   await send("Page.navigate", { url });
-  if (pagePath === "app/index.html") {
+  if (/(^|\/)app\/index\.html$/.test(pagePath)) { // the app: wait for its sample sheet to be read
     for (let i = 0; i < 60; i++) { await sleep(300); if (await ev(`document.querySelectorAll("#tbody tr[data-id]").length`).catch(() => 0)) break; }
   } else {
     for (let i = 0; i < 40; i++) { await sleep(150); if (await ev(`document.readyState`).catch(() => "") === "complete") break; }

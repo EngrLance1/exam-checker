@@ -1,0 +1,10 @@
+# Files that stay in the repository but are not part of the website
+tests/
+scripts/
+docs/
+.claude/
+CLAUDE.md
+README.md
+claude-vscode-setup/
+SETUP-GUIDE.md
+node_modules/
