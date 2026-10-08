@@ -1,0 +1,12 @@
+# Machine-local Claude Code permissions
+.claude/settings.local.json
+
+# Personal setup bundle that is not part of the app
+claude-vscode-setup/
+SETUP-GUIDE.md
+
+# Tooling and OS noise
+node_modules/
+.DS_Store
+Thumbs.db
+*.log

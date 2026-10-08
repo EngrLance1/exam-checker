@@ -1,0 +1,34 @@
+/* css/print.css — how the report looks on paper. Only applies when printing; the screen is untouched.
+   Colours are fixed (black on white) so dark mode never prints as a dark page. */
+
+#printArea { display: none; }
+
+@media print {
+  @page { margin: 14mm; }
+  html, body { background: #fff !important; color: #000 !important; padding: 0 !important; }
+  body > *:not(#printArea) { display: none !important; }
+
+  #printArea { display: block; font: 11px/1.45 var(--font-body); color: #000; }
+  #printArea * { color: #000; background: none; box-shadow: none; }
+  #printArea h1 { font: 700 22px/1.2 var(--font-display); margin: 0 0 2px; }
+  #printArea h2 { font: 700 14px/1.2 var(--font-display); margin: 18px 0 6px; border-bottom: 1.5px solid #000; padding-bottom: 3px; break-after: avoid; }
+  #printArea h3 { font: 700 12px/1.2 var(--font-display); margin: 14px 0 2px; break-after: avoid; }
+  #printArea p { margin: 3px 0; }
+  #printArea .meta { color: #333; font-size: 10px; }
+  #printArea .big { font: 700 28px/1.1 var(--font-display); margin: 4px 0; }
+  #printArea .big span { font: 600 13px var(--font-body); }
+  #printArea .pagebreak { break-before: page; }
+
+  #printArea table { width: 100%; border-collapse: collapse; font-size: 10px; margin: 4px 0 8px; }
+  #printArea th, #printArea td { text-align: left; padding: 3px 5px; border-bottom: 0.5px solid #888; vertical-align: top; }
+  #printArea th { border-bottom: 1.2px solid #000; font-weight: 700; }
+  #printArea .num { text-align: right; font-variant-numeric: tabular-nums; }
+  #printArea thead { display: table-header-group; }
+  #printArea tr { break-inside: avoid; }
+  #printArea table.ia { font-size: 9px; }
+  #printArea table.dist { width: 100%; }
+  #printArea .dist td.bar { width: 35%; }
+  #printArea .dist .bar i { display: block; height: 8px; background: #000; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  #printArea .guide { margin-top: 12px; padding: 6px 8px; border: 0.5px solid #000; font-size: 9.5px; break-inside: avoid; }
+  #printArea .sr { display: none; }
+}
